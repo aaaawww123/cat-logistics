@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Cat International Logistics</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{background:#f0f4f8;min-height:100vh;color:#1f2937}
+.hdr{background:linear-gradient(135deg,#f97316,#ea580c);color:white;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(249,115,22,0.4)}
+.btn{border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.bo{background:#f97316;color:white}.bo:hover{background:#ea580c}
+.bg_{background:#e5e7eb;color:#374151}.bg_:hover{background:#d1d5db}
+.bgr{background:#22c55e;color:white}.bgr:hover{background:#16a34a}
+.br{background:#ef4444;color:white}.br:hover{background:#dc2626}
+.bb{background:#3b82f6;color:white}.bb:hover{background:#2563eb}
+.bgh{background:rgba(255,255,255,.2);color:white;border:1px solid rgba(255,255,255,.3)}
+.bsm{padding:5px 10px;font-size:11px;border-radius:6px}
+.bxs{padding:3px 8px;font-size:10px;border-radius:5px}
+.card{background:white;border-radius:14px;padding:16px;margin-bottom:10px;border:1px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.inp{width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:9px 12px;font-size:13px;outline:none;background:white}
+.inp:focus{border-color:#f97316;box-shadow:0 0 0 3px rgba(249,115,22,.1)}
+.lbl{display:block;font-size:11px;font-weight:700;color:#4b5563;margin-bottom:5px;text-transform:uppercase}
+select.inp{cursor:pointer}
+textarea.inp{resize:vertical}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.modal{background:white;width:100%;max-width:580px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto}
+.mhdr{position:sticky;top:0;background:white;border-bottom:1px solid #e5e7eb;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:15px;z-index:10}
+.mbody{padding:18px;display:flex;flex-direction:column;gap:14px}
+.mcl{background:none;border:none;font-size:24px;cursor:pointer;color:#9ca3af;line-height:1}
+.tabs{background:white;border-bottom:2px solid #e5e7eb;padding:0 16px;display:flex;gap:4px}
+.tab{padding:12px 16px;font-size:13px;font-weight:600;border:none;border-bottom:3px solid transparent;color:#6b7280;background:none;cursor:pointer;margin-bottom:-2px}
+.tab.on{border-bottom-color:#f97316;color:#f97316}
+.sbar{background:white;padding:14px 16px;border-bottom:1px solid #e5e7eb}
+.sbox{background:#f0f4f8;border-radius:10px;padding:10px 8px;text-align:center}
+.sn{font-size:24px;font-weight:800}
+.sl{font-size:10px;color:#6b7280;margin-top:2px;font-weight:600}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.bgr2{background:#f3f4f6;color:#4b5563}.bbl{background:#dbeafe;color:#1d4ed8}.byw{background:#fef9c3;color:#b45309}.bgn{background:#dcfce7;color:#15803d}.bpu{background:#f3e8ff;color:#7e22ce}.bon{background:#fff7ed;color:#f97316}.brd{background:#fee2e2;color:#b91c1c}
+.fb{padding:4px 12px;border-radius:20px;border:1.5px solid #e5e7eb;background:white;color:#6b7280;font-size:11px;font-weight:600;cursor:pointer}
+.fo{background:#f97316;color:white;border-color:#f97316}
+.fbo{background:#3b82f6;color:white;border-color:#3b82f6}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{border:1px solid #e5e7eb;padding:6px 8px;text-align:left;background:#f8fafc;font-weight:700;white-space:nowrap}
+.tbl td{border:1px solid #e5e7eb;padding:5px 8px;vertical-align:middle}
+.tinp{width:100%;border:none;padding:4px 6px;font-size:12px;background:transparent;outline:none}
+.tinp:focus{background:#fff7ed;border-radius:4px}
+.ocard{background:white;border-radius:12px;margin-bottom:8px;border:1px solid #e5e7eb;overflow:hidden;transition:all .15s}
+.ocard:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);border-color:#f97316}
+.ocard-t{padding:12px 14px;cursor:pointer}
+.ocard-a{display:flex;gap:6px;padding:8px 14px;background:#fafafa;border-top:1px solid #e5e7eb}
+.ono{background:linear-gradient(135deg,#f97316,#ea580c);color:white;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800}
+.land{background:#dcfce7;color:#15803d;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.air{background:#dbeafe;color:#1d4ed8;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.tld{display:flex;gap:10px;margin-bottom:10px}
+.tldot{width:10px;height:10px;border-radius:50%;background:#f97316;margin-top:3px;flex-shrink:0}
+.sh{background:linear-gradient(90deg,#1a3a5c,#1e4976);color:white;padding:8px 14px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+.sha{width:4px;height:16px;background:#f0a800;border-radius:2px}
+.shp{background:linear-gradient(90deg,#2d2456,#3b2d6e)}
+.page{max-width:720px;margin:0 auto;padding:14px}
+.sok{font-size:11px;background:rgba(255,255,255,.25);padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.3)}
+.sing{font-size:11px;background:rgba(255,200,0,.3);padding:3px 10px;border-radius:20px}
+.lang-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:white;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.banner-wrap{position:relative;border-radius:14px;overflow:hidden;margin-bottom:12px;height:120px}
+.banner-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .6s;flex-direction:column;text-align:center}
+.banner-slide.active{opacity:1}
+.bdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:.2s}
+.bdot.on{background:white;width:20px;border-radius:4px}
+.notice-box{background:linear-gradient(135deg,#fffbeb,#fef9c3);border:1.5px solid #fcd34d;border-radius:12px;padding:14px;margin-bottom:12px}
+.notice-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed #fde68a}
+.notice-item:last-child{border-bottom:none;padding-bottom:0}
+.profit-stat{background:#f0fdf4;border-radius:10px;padding:12px;text-align:center}
+.profit-n{font-size:22px;font-weight:800}
+.profit-l{font-size:11px;color:#6b7280;margin-top:2px}
+.pwrap{min-height:100vh;background:linear-gradient(135deg,#fff7ed,#fed7aa)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ── FIREBASE BACKEND ──
+var PID="cat-logistics-d4fa9";
+var AK="AIzaSyD-XsaDEjK7VZSNkj6rcx57_s-E-XfsjnM";
+var FB="https://firestore.googleapis.com/v1/projects/"+PID+"/databases/(default)/documents";
+
+function toF(o){
+  var f={};
+  for(var k in o){
+    var v=o[k];
+    if(v==null)f[k]={nullValue:null};
+    else if(typeof v==="boolean")f[k]={booleanValue:v};
+    else if(typeof v==="number")f[k]={doubleValue:v};
+    else if(Array.isArray(v)||typeof v==="object")f[k]={stringValue:JSON.stringify(v)};
+    else f[k]={stringValue:String(v)};
+  }
+  return f;
+}
+function pD(fields){
+  var o={};
+  for(var k in fields){
+    var v=fields[k];
+    if(v.stringValue!==undefined){try{o[k]=JSON.parse(v.stringValue);}catch(e){o[k]=v.stringValue;}}
+    else if(v.booleanValue!==undefined)o[k]=v.booleanValue;
+    else if(v.doubleValue!==undefined)o[k]=v.doubleValue;
+    else if(v.integerValue!==undefined)o[k]=parseInt(v.integerValue);
+    else o[k]=null;
+  }
+  return o;
+}
+function fsG(c){
+  return fetch(FB+"/"+c+"?key="+AK+"&pageSize=500").then(function(r){return r.json();}).then(function(d){
+    if(!d.documents)return[];
+    return d.documents.map(function(doc){return Object.assign({id:doc.name.split("/").pop()},pD(doc.fields));});
+  }).catch(function(){return[];});
+}
+function fsS(c,id,data){
+  return fetch(FB+"/"+c+"/"+id+"?key="+AK,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields:toF(data)})}).catch(function(){});
+}
+function fsD(c,id){return fetch(FB+"/"+c+"/"+id+"?key="+AK,{method:"DELETE"}).catch(function(){});}
+
+// localStorage fallback for users only (faster)
+var USERS_KEY='cat_users';
+function lsGetUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY)||'null');}catch(e){return null;}}
+function lsSaveUsers(users){localStorage.setItem(USERS_KEY,JSON.stringify(users));}
+
+function getNextOrderNo(){
+  return fetch(FB+"/meta/orderCounter?key="+AK).then(function(r){return r.json();}).then(function(d){
+    var n=1001;
+    if(d.fields&&d.fields.count){
+      if(d.fields.count.integerValue)n=parseInt(d.fields.count.integerValue)+1;
+      else if(d.fields.count.doubleValue)n=parseInt(d.fields.count.doubleValue)+1;
+    }
+    return fsS("meta","orderCounter",{count:n}).then(function(){return String(n);});
+  }).catch(function(){return String(1001+Math.floor(Math.random()*9000));});
+}
+
+var STS=["待处理订单","瑞丽已签收","木姐已签收","腊戌已签收","瓦城已签收","客户已取货"];
+var STS_MM=["မှာစာ ကြိုဆိုင်","Ruili လက်ခံပြီ","Muse လက်ခံပြီ","Lashio လက်ခံပြီ","Mandalay လက်ခံပြီ","ဖောက်သည် လက်ခံပြီ"];
+function getSTSLabel(s){var i=STS.indexOf(s);return S.lang==="mm"&&i>=0?STS_MM[i]:s;}
+var STC={"待处理订单":"bgr2","瑞丽已签收":"bbl","木姐已签收":"byw","腊戌已签收":"bgn","瓦城已签收":"bpu","客户已取货":"bon"};
+var BIZ=["代购","代收","直发"];
+var BIZ_MM=["ဝယ်ယူပေး","လက်ခံသိမ်း","တိုက်ရိုက်ပို့"];
+var DEFAULT_USERS=[{id:"admin",username:"admin",password:"admin888",role:"admin",name:"管理员"},{id:"staff1",username:"staff1",password:"staff123",role:"staff",name:"员工甲"}];
+
+function nowStr(){return new Date().toLocaleString("zh-CN");}
+function eI(){return{itemName:"",qty:"",weight:""};}
+function eP(){return{name:"",link:"",spec:"",qty:"",price:"",remark:""};}
+function eF(){return{orderNo:"",bizType:"代购",shipType:"陆运",customerName:"",customerPhone:"",customerAddress:"",domesticTrackNos:"",intlTrackNo:"",items:[eI()],fee:"",codAmount:"",cost:"",payStatus:"未付",status:"待处理订单",remark:"",products:[eP(),eP(),eP(),eP(),eP(),eP()],timeline:[]};}
+
+// Language
+var LANG={
+  zh:{appName:"橘猫国际物流",appSub:"Cat International Logistics",login:"员工登录",username:"用户名",password:"密码",loginBtn:"🚀 登录系统",queryBtn:"查询我的包裹状态",logout:"退出",syncing:"⟳ 同步中",synced:"☁️ 已同步",newOrder:"＋ 新增订单",exportExcel:"📊 导出Excel",refresh:"🔄 刷新",search:"搜索单号/姓名/电话...",totalOrders:"总订单",inTransit:"运输中",arrived:"待取货",unpaid:"未付款",orderMgmt:"📦 订单管理",staffMgmt:"👥 员工管理",settings:"⚙️ 设置",profit:"📈 利润统计",all:"全部",noOrder:"暂无订单",noOrderSub:"调整筛选条件或新增订单",pubTitle:"📦 包裹查询",pubDesc:"支持：订单编号 / 国内单号 / 国际单号 / 手机号 / 客户姓名",pubPlaceholder:"输入单号、手机号或客户姓名...",pubSearch:"🔍 查询",notFound:"未找到相关订单",notFoundSub:"请检查单号或手机号是否正确",land:"陆运",air:"空运",save:"💾 保存订单",cancel:"取消",updateSts:"更新物流状态",addItem:"＋ 添加品名",addRow:"＋ 添加一行",notices:"📢 公告通知",profitTitle:"利润 & 成本统计",totalRevenue:"总营收",totalCost:"总成本",totalProfit:"总利润",profitRate:"利润率",monthlyReport:"月度报表",orderCount:"订单数",revenue:"营收(元)",costCol:"成本(元)",profitCol:"利润(元)",paidTag:"💰已付",unpaidTag:"⏳未付",changePwd:"改密码",addStaff:"＋ 添加员工",cloudSync:"☁️ Firebase 云端同步",exportAll:"📊 导出全部",cleanBtn:"清除已完成订单",tagline1:"中缅专业",tagline2:"物流管理",tagline3:"系统",taglineDesc:"实时追踪 · 云端同步 · 多站点管理\n让每一票货物都安全准时到达",stat1:"准时送达",stat2:"实时追踪",stat3:"缅甸覆盖",route1:"中国 瑞丽 · 昆明",route2:"缅甸 仰光 · 木姐",welcome:"欢迎回来 👋",custEntry:"客户入口",
+    filterStatus:"状态",filterBiz:"业务",filterShip:"运输",filterPay:"付款",
+    all:"全部",land:"陆运",air:"空运",unpaidF:"未付",paidF:"已付",
+    countPre:"共 ",countSuf:" 条",
+    loading:"正在从云端加载...",noOrder:"暂无订单",noOrderSub:"调整筛选条件或新增订单",
+    editBtn:"✏️ 编辑",stsBtn:"🔄 状态",detailBtn:"👁 详情",delBtn:"🗑 删除",
+    orderDetail:"订单详情",goodsDetail:"货物明细",logTrack:"物流轨迹",
+    remark:"备注",address:"收货地址",phone:"联系电话",custName:"客户姓名",
+    freight:"运费",cod:"到付金额",domTrack:"国内快递单号",intlTrack:"国际物流单号",
+    subtotal:"合计",editOrder:"编辑订单",newOrderLabel:"新增",
+    basicInfo:"📋 基本信息",bizTypeL:"业务类型",shipTypeL:"运输方式",
+    payStatusL:"付款状态",orderStatusL:"订单状态",custInfo:"👤 客户信息",
+    custNameR:"客户姓名 *",phoneR:"联系电话 *",addressMM:"收货地址（缅甸）",
+    trackInfo:"📬 物流单号",domTrackL:"国内快递单号",intlTrackL:"国际物流单号",
+    goodsLabel:"📦 货物品名",qtyUnit:"件",weightUnit:"kg",
+    freight2:"运费（元）",cod2:"到付金额（元）",cost2:"成本（元）",
+    purchaseList:"🛒 代购商品清单（选填）",remarkLabel:"📝 客户备注",
+    editStaff:"编辑员工",addStaffLabel:"添加员工",nameL:"姓名 *",
+    usernameL:"用户名 *",passwordL:"密码 *",roleL:"角色",
+    staffRole:"普通员工",adminRole:"管理员",savePwdBtn:"确认修改",
+    oldPwd:"原密码",newPwd:"新密码（至少6位）",confPwd:"确认新密码",
+    changePwdTitle:"🔑 修改密码",currentTag:"当前",
+    prodName:"商品名称",prodLink:"链接/货号",prodSpec:"规格/颜色",prodQty:"数量",prodPrice:"单价",prodSub:"小计",prodReq:"要求",
+    itemName:"品名",itemQty:"数量(件)",itemWeight:"重量(kg)",
+    noData:"暂无数据",monthCol:"月份",totalRow:"合计",
+    acctLabel:"账号：",editBtn2:"编辑",delBtn2:"删除",
+    staffLabel:"员工",adminLabel:"👑 管理员",staffLabel2:"👤 员工",
+    dataDesc:"'+t.dataDesc+'",
+    refreshBtn:"🔄 刷新",changePwdBtn:"修改密码",
+    cleanTitle:"🗑️ 数据清理",cleanDesc:"清除所有已取货历史订单",
+    settingsCloudTitle:"☁️ Firebase 云端同步",
+    pwdTitle:"🔑 修改密码",pwdDesc:"修改当前账号密码",
+    saveBtn2:"保存",noDataRow:"'+t.noData+'"},
+  mm:{appName:"橘猫国际物流",appSub:"Cat International Logistics",login:"ဝန်ထမ်း ဝင်ရောက်",username:"အသုံးပြုသူ",password:"စကားဝှက်",loginBtn:"🚀 ဝင်ရောက်ရန်",queryBtn:"ပါဆယ်စစ်ဆေးရန်",logout:"ထွက်",syncing:"⟳ ထပ်တူပြု",synced:"☁️ ပြီးပါပြီ",newOrder:"＋ အမှာစာသစ်",exportExcel:"📊 Excel",refresh:"🔄 ပြန်လည်",search:"ရှာဖွေ...",totalOrders:"စုစုပေါင်း",inTransit:"သယ်ဆောင်ဆဲ",arrived:"ရောက်ပြီ",unpaid:"မပေးရသေး",orderMgmt:"📦 အမှာစာ",staffMgmt:"👥 ဝန်ထမ်း",settings:"⚙️ ဆက်တင်",profit:"📈 အမြတ်",all:"အားလုံး",noOrder:"အမှာစာမရှိ",noOrderSub:"စစ်ထုတ်မှုပြောင်းပါ",pubTitle:"📦 ပါဆယ်စစ်ဆေး",pubDesc:"အမှာစာနံပါတ် / ဖုန်းနံပါတ် / အမည်",pubPlaceholder:"နံပါတ် သို့ ဖုန်းထည့်ပါ...",pubSearch:"🔍 ရှာဖွေ",notFound:"အမှာစာမတွေ့ပါ",notFoundSub:"နံပါတ်စစ်ဆေးပါ",land:"ကုန်းလမ်း",air:"လေကြောင်း",save:"💾 သိမ်းဆည်း",cancel:"မလုပ်တော့",updateSts:"အခြေအနေပြောင်း",addItem:"＋ ထည့်",addRow:"＋ တန်းထည့်",notices:"📢 ကြေငြာ",profitTitle:"အမြတ်စာရင်း",totalRevenue:"ဝင်ငွေ",totalCost:"ကုန်ကျ",totalProfit:"အမြတ်",profitRate:"နှုန်း",monthlyReport:"လစဉ်",orderCount:"အမှာ",revenue:"ဝင်ငွေ",costCol:"ကုန်ကျ",profitCol:"အမြတ်",paidTag:"💰ပေးပြီ",unpaidTag:"⏳မပေး",changePwd:"စကားဝှက်ပြောင်း",addStaff:"＋ ဝန်ထမ်းထည့်",cloudSync:"☁️ Firebase ကလောက်",exportAll:"📊 တင်ပို့",cleanBtn:"ဖျက်ရန်",tagline1:"မြန်မာ-တရုတ်",tagline2:"ကုန်ပို့စီမံ",tagline3:"စနစ်",taglineDesc:"တိုက်ရိုက်ခြေရာခံ · Cloud ထိန်းသိမ်း · နေရာစုံ\nကုန်တိုင်း လုံခြုံစွာ အချိန်မီ ရောက်ပါစေ",stat1:"အချိန်မီ",stat2:"ခြေရာခံ",stat3:"မြို့ ၅ ခု",route1:"တရုတ် Ruili · Kunming",route2:"မြန်မာ Yangon · Muse",welcome:"ကြိုဆိုပါသည် 👋",custEntry:"ဖောက်သည်ဝင်ခွင့;",
+    filterStatus:"အခြေအနေ",filterBiz:"လုပ်ငန်း",filterShip:"သယ်ယူ",filterPay:"ငွေပေး",
+    all:"အားလုံး",land:"ကုန်းလမ်း",air:"လေကြောင်း",unpaidF:"မပေးရသေး",paidF:"ပေးပြီ",
+    countPre:"စုစုပေါင်း ",countSuf:" ခု",
+    loading:"Cloud မှ ဒေါင်းလုပ်ဆွဲနေသည်...",noOrder:"အမှာစာမရှိ",noOrderSub:"စစ်ထုတ်မှုပြောင်းပါ",
+    editBtn:"✏️ ပြင်",stsBtn:"🔄 အခြေအနေ",detailBtn:"👁 အသေးစိတ်",delBtn:"🗑 ဖျက်",
+    orderDetail:"အမှာစာ အသေးစိတ်",goodsDetail:"ကုန်ပစ္စည်း အသေးစိတ်",logTrack:"ပို့ဆောင်မှု မှတ်တမ်း",
+    remark:"မှတ်ချက်",address:"လိပ်စာ",phone:"ဖုန်းနံပါတ်",custName:"ဖောက်သည် အမည်",
+    freight:"ပို့ဆောင်ခ",cod:"COD ငွေပမာဏ",domTrack:"ပြည်တွင်း နံပါတ်",intlTrack:"နိုင်ငံတကာ နံပါတ်",
+    subtotal:"စုစုပေါင်း",editOrder:"ပြင်ဆင်",newOrderLabel:"အသစ်",
+    basicInfo:"📋 အခြေခံ",bizTypeL:"လုပ်ငန်းအမျိုးအစား",shipTypeL:"သယ်ယူနည်း",
+    payStatusL:"ငွေပေးချေမှု",orderStatusL:"အမှာစာ အခြေအနေ",custInfo:"👤 ဖောက်သည်",
+    custNameR:"ဖောက်သည် အမည် *",phoneR:"ဖုန်းနံပါတ် *",addressMM:"လိပ်စာ (မြန်မာ)",
+    trackInfo:"📬 ထောက်လှမ်းနံပါတ်",domTrackL:"ပြည်တွင်း",intlTrackL:"နိုင်ငံတကာ",
+    goodsLabel:"📦 ကုန်ပစ္စည်း",qtyUnit:"ခု",weightUnit:"kg",
+    freight2:"ပို့ဆောင်ခ (ယွမ်)",cod2:"COD (ယွမ်)",cost2:"ကုန်ကျ (ယွမ်)",
+    purchaseList:"🛒 ဝယ်ယူပေးသည့် ကုန်ပစ္စည်း",remarkLabel:"📝 မှတ်ချက်",
+    editStaff:"ဝန်ထမ်း ပြင်ဆင်",addStaffLabel:"ဝန်ထမ်း ထည့်",nameL:"အမည် *",
+    usernameL:"အသုံးပြုသူ *",passwordL:"စကားဝှက် *",roleL:"အခန်းကဏ္ဍ",
+    staffRole:"ဝန်ထမ်း",adminRole:"စီမံခန့်ခွဲသူ",savePwdBtn:"အတည်ပြု",
+    oldPwd:"ရှိပြီးသား စကားဝှက်",newPwd:"စကားဝှက်သစ် (၆ လုံး+)",confPwd:"အတည်ပြု",
+    changePwdTitle:"🔑 စကားဝှက် ပြောင်းလဲ",currentTag:"လက်ရှိ",
+    prodName:"ကုန်အမည်",prodLink:"လင့်/ကုဒ်",prodSpec:"အရောင်/အရွယ်",prodQty:"အရေ",prodPrice:"စျေး",prodSub:"ပေါင်း",prodReq:"လိုချင်",
+    itemName:"ကုန်အမည်",itemQty:"အရေ(ခု)",itemWeight:"အလေး(kg)",
+    noData:"ဒေတာမရှိ",monthCol:"လ",totalRow:"စုစုပေါင်း",
+    acctLabel:"အကောင့်：",currentTag:"လက်ရှိ",editBtn2:"ပြင်",delBtn2:"ဖျက်",
+    staffLabel:"ဝန်ထမ်း",adminLabel:"👑 စီမံခန့်ခွဲသူ",staffLabel2:"👤 ဝန်ထမ်း",
+    dataDesc:"Firebase Cloud တွင် သိမ်းဆည်း၊ စက်အားလုံး ချိတ်ဆက်",
+    refreshBtn:"🔄 ပြန်လည်",changePwdBtn:"စကားဝှက်ပြောင်း",
+    cleanTitle:"🗑️ ဒေတာ သန့်ရှင်း",cleanDesc:"ပြီးစီးသော အမှာစာများ ဖျက်မည်",
+    settingsCloudTitle:"☁️ Firebase Cloud ချိတ်ဆက်",
+    pwdTitle:"🔑 စကားဝှက် ပြောင်းလဲ",pwdDesc:"လက်ရှိ အကောင့် စကားဝှက် ပြောင်းရန်",
+    saveBtn2:"သိမ်း",noDataRow:"ဒေတာမရှိ"}
+};
+
+function T(){return LANG[S.lang];}
+function set(u){Object.assign(S,u);render();}
+
+var S={
+  page:"login",user:null,orders:[],users:[],sync:"idle",loading:false,lang:"zh",
+  lu:"",lp:"",lerr:"",
+  showForm:false,editId:null,form:eF(),ferr:"",
+  fSts:"全部",fBiz:"全部",fShip:"全部",fPay:"全部",search:"",
+  pubQ:"",
+  detail:null,stsModal:null,
+  tab:"orders",
+  showStaff:false,sf:{username:"",password:"",name:"",role:"staff"},serr:"",esid:null,
+  showPwd:null,pf:{old:"",newp:"",conf:""},perr:"",
+  bannerIdx:0,
+  notices:[
+    {icon:"🔥",zh:"双十一大促：代购满500元免运费！",mm:"¥500 ကျော်သောအမှာစာ ပို့ဆောင်ခ အခမဲ့!"},
+    {icon:"📦",zh:"新航线：仰光-昆明直发，5天到达",mm:"ရန်ကုန်-ကူမင်း တိုက်ရိုက် ၅ ရက်"},
+    {icon:"⚡",zh:"空运特价：每kg仅¥35，限时优惠！",mm:"လေကြောင်း တစ် kg ¥35 သာ!"},
+    {icon:"🎁",zh:"老客户：介绍新客户享8折优惠",mm:"သူငယ်ချင်းဆွဲဆောင်ပါ ၂၀% လျှော့"}
+  ],
+  banners:[
+    {bg:"linear-gradient(135deg,#f97316,#dc2626)",icon:"🚛",zh:"陆运特惠 · 仰光全境配送",mm:"ကုန်းလမ်းသီးသန့် · ရန်ကုန်တစ်ဝှမ်း",sub_zh:"每kg起步价 ¥18 · 安全快速",sub_mm:"တစ် kg ¥18 မှစ"},
+    {bg:"linear-gradient(135deg,#3b82f6,#8b5cf6)",icon:"✈️",zh:"空运加急 · 3-5天极速达",mm:"လေကြောင်း · ၃-၅ ရက်",sub_zh:"限时特价 每kg ¥35 起",sub_mm:"တစ် kg ¥35 မှစ"},
+    {bg:"linear-gradient(135deg,#22c55e,#059669)",icon:"🎯",zh:"代购服务 · 中国全平台下单",mm:"ဝယ်ယူပေးခြင်း · တရုတ်ပလက်ဖောင်း",sub_zh:"淘宝/天猫/京东/拼多多",sub_mm:"Taobao/Tmall/JD"},
+    {bg:"linear-gradient(135deg,#f59e0b,#f97316)",icon:"📦",zh:"代收仓储 · 广州仓库现货",mm:"သိုလှောင်ရုံ · Guangzhou",sub_zh:"安全存储 · 合并发货省运费",sub_mm:"လုံခြုံစွာသိမ်း · ပေါင်းပေးပို့"}
+  ]
+};
+
+// Init users from localStorage cache first, then sync from Firebase
+(function(){
+  var saved=lsGetUsers();
+  if(saved&&saved.length>0){S.users=saved;}
+  else{S.users=JSON.parse(JSON.stringify(DEFAULT_USERS));lsSaveUsers(S.users);}
+  // Sync users from Firebase in background
+  fsG("users").then(function(d){
+    if(d.length>0){S.users=d;lsSaveUsers(d);}
+    else{DEFAULT_USERS.forEach(function(u){fsS("users",u.id,u);});}
+  }).catch(function(){});
+})();
+
+// Banner auto-rotate
+setInterval(function(){
+  if(S.page==="dashboard"&&!S.showForm&&!S.stsModal&&!S.detail){
+    S.bannerIdx=(S.bannerIdx+1)%S.banners.length;
+    var slides=document.querySelectorAll('.banner-slide');
+    var dots=document.querySelectorAll('.bdot');
+    slides.forEach(function(el,i){el.classList.toggle('active',i===S.bannerIdx);});
+    dots.forEach(function(el,i){el.classList.toggle('on',i===S.bannerIdx);});
+  }
+},4000);
+
+function loadOrders(){
+  set({loading:true,sync:"syncing"});
+  return fsG("orders").then(function(d){
+    d.sort(function(a,b){return(parseInt(b.orderNo)||0)-(parseInt(a.orderNo)||0);});
+    set({orders:d,loading:false,sync:"ok"});
+    return d;
+  }).catch(function(){set({loading:false,sync:"idle"});return[];});
+}
+
+function loadUsers(){
+  return fsG("users").then(function(d){
+    if(d.length>0){
+      lsSaveUsers(d);
+      S.users=d;
+    }else{
+      DEFAULT_USERS.forEach(function(u){fsS("users",u.id,u);});
+    }
+  }).catch(function(){});
+}
+function doLogin(){
+  var u=S.users.find(function(x){return x.username===S.lu&&x.password===S.lp;});
+  if(!u){set({lerr:S.lang==="zh"?S.lang==="mm"?"အသုံးပြုသူ သို့ စကားဝှက် မှားသည်":"用户名或密码错误":"အသုံးပြုသူ မှားသည်"});return;}
+  set({user:u,lerr:"",page:"dashboard"});
+  loadOrders();
+  loadUsers();
+  setInterval(function(){if(!S.showForm&&!S.stsModal&&!S.detail)loadOrders();},30000);
+}
+function doLogout(){set({page:"login",user:null,showForm:false,tab:"orders",lu:"",lp:""});}
+
+function saveForm(){
+  var f=S.form;
+  if(!f.customerName.trim()||!f.customerPhone.trim()){set({ferr:"请填写客户姓名和电话"});return;}
+  set({sync:"syncing"});
+  if(S.editId){
+    var upd=Object.assign({},f,{updatedAt:nowStr(),timeline:(f.timeline||[]).concat([{time:nowStr(),action:"订单信息更新",by:S.user.name}])});
+    fsS("orders",S.editId,upd).then(function(){
+      S.orders=S.orders.map(function(o){return o.id===S.editId?Object.assign({},upd,{id:S.editId}):o;});
+      S.sync="ok";closeForm();render();
+    });
+  }else{
+    getNextOrderNo().then(function(no){
+      var id="ORD"+Date.now().toString().slice(-8);
+      var newO=Object.assign({},f,{orderNo:no,id:id,createdAt:nowStr(),updatedAt:nowStr(),timeline:[{time:nowStr(),action:"订单创建",by:S.user.name}]});
+      fsS("orders",id,newO).then(function(){
+        S.orders=[Object.assign({},newO,{id:id})].concat(S.orders);
+        S.sync="ok";closeForm();render();
+      });
+    });
+  }
+}
+
+function delOrder(id){
+  if(!confirm(S.lang==="mm"?"ဤအမှာစာ ဖျက်မည်လား?":"确认删除此订单？"))return;
+  set({sync:"syncing"});
+  fsD("orders",id).then(function(){set({orders:S.orders.filter(function(o){return o.id!==id;}),sync:"ok"});});
+}
+
+function updSts(oid,ns){
+  var o=S.orders.find(function(x){return x.id===oid;})||S.stsModal;
+  if(!o)return;
+  var upd=Object.assign({},o,{status:ns,updatedAt:nowStr(),timeline:(o.timeline||[]).concat([{time:nowStr(),action:"状态→"+ns,by:S.user?S.user.name:"系统"}])});
+  S.stsModal=null;
+  S.orders=S.orders.map(function(x){return x.id===o.id?Object.assign({},upd,{id:o.id}):x;});
+  if(S.detail&&S.detail.id===o.id)S.detail=Object.assign({},upd,{id:o.id});
+  render();
+  fsS("orders",o.id,upd).then(function(){S.sync="ok";render();});
+}
+
+function saveStaff(){
+  var sf=S.sf;
+  if(!sf.username||!sf.name||!sf.password){set({serr:S.lang==="mm"?"အချက်အလက် ဖြည့်ပါ":"请填写完整"});return;}
+  if(!S.esid&&S.users.find(function(u){return u.username===sf.username;})){set({serr:S.lang==="mm"?"အသုံးပြုသူ ရှိပြီးသား":"用户名已存在"});return;}
+  var id=S.esid||sf.username;
+  var newUser=Object.assign({},sf,{id:id});
+  var us=S.esid?S.users.map(function(u){return u.id===S.esid?newUser:u;}):[].concat(S.users,[newUser]);
+  lsSaveUsers(us);
+  fsS("users",id,newUser);
+  set({users:us,showStaff:false,serr:"",esid:null,sf:{username:"",password:"",name:"",role:"staff"}});
+}
+function delStaff(id){
+  if(id===S.user.id){alert("不能删除自己");return;}
+  if(!confirm(S.lang==="mm"?"ဖျက်မည်လား?":"确认删除？"))return;
+  var us=S.users.filter(function(u){return u.id!==id;});
+  lsSaveUsers(us);
+  fsD("users",id);
+  set({users:us});
+}
+function savePwd(){
+  var u=S.users.find(function(x){return x.id===S.showPwd.id;});
+  if(u.password!==S.pf.old){set({perr:S.lang==="mm"?"စကားဝှက် မှားသည်":"原密码错误"});return;}
+  if(S.pf.newp.length<6){set({perr:S.lang==="mm"?"စကားဝှက် ၆ လုံးနှင့်အထက်":"新密码至少6位"});return;}
+  if(S.pf.newp!==S.pf.conf){set({perr:S.lang==="mm"?"စကားဝှက် မတူညီ":"两次密码不一致"});return;}
+  var upd=Object.assign({},u,{password:S.pf.newp});
+  var us=S.users.map(function(x){return x.id===u.id?upd:x;});
+  lsSaveUsers(us);
+  fsS("users",u.id,upd);
+  set({users:us,user:S.user.id===u.id?upd:S.user,showPwd:null,pf:{old:"",newp:"",conf:""},perr:""});
+}
+
+function cleanDone(){
+  if(!confirm(S.lang==="mm"?"ပြီးစီးသော အမှာစာများ ဖျက်မည်လား?":"确认清除所有已取货订单？"))return;
+  var td=S.orders.filter(function(o){return o.status==="客户已取货";});
+  td.forEach(function(o){fsD("orders",o.id);});
+  set({orders:S.orders.filter(function(o){return o.status!=="客户已取货";})});
+}
+
+function closeForm(){S.showForm=false;S.editId=null;S.ferr="";}
+function closeSts(){S.stsModal=null;render();}
+
+// Public search
+function doPubSearch(){
+  var inp=document.getElementById('pub-inp');
+  var q=inp?inp.value.trim().toLowerCase().replace(/^#/,''):'';
+  if(!q)return;
+  S.pubQ=q;
+  if(S.orders.length===0){
+    var ri=document.getElementById('pub-results');
+    if(ri)ri.innerHTML='<div style="text-align:center;padding:30px;color:#9ca3af">⏳ 加载中...</div>';
+    loadOrders().then(function(){renderPubResults(q);});
+  }else{renderPubResults(q);}
+}
+
+function renderPubResults(q){
+  var t=T();
+  var ri=document.getElementById('pub-results');
+  if(!ri)return;
+  var res=S.orders.filter(function(o){
+    return String(o.orderNo||'').includes(q)||
+      String(o.id||'').toLowerCase().includes(q)||
+      String(o.intlTrackNo||'').toLowerCase().includes(q)||
+      String(o.domesticTrackNos||'').toLowerCase().includes(q)||
+      String(o.customerPhone||'').replace(/\s/g,'').includes(q.replace(/\s/g,''))||
+      String(o.customerName||'').toLowerCase().includes(q);
+  });
+  if(res.length===0){
+    ri.innerHTML='<div style="text-align:center;padding:50px;color:#9ca3af"><div style="font-size:48px">📭</div><div style="font-weight:600;margin-top:12px">'+T().notFound+'</div><div style="font-size:13px;margin-top:6px">'+T().notFoundSub+'</div></div>';
+    return;
+  }
+  var html="";
+  res.forEach(function(o){
+    var on=String(o.orderNo||o.id||'');
+    var its=Array.isArray(o.items)?o.items:[];
+    var prds=Array.isArray(o.products)?o.products:[];
+    var sid='pub_'+o.id;
+    var stcMap={"待处理订单":"background:#f3f4f6;color:#4b5563","瑞丽已签收":"background:#dbeafe;color:#1d4ed8","木姐已签收":"background:#fef9c3;color:#b45309","腊戌已签收":"background:#dcfce7;color:#15803d","瓦城已签收":"background:#f3e8ff;color:#7e22ce","客户已取货":"background:#fff7ed;color:#f97316"};
+    var stStyle=stcMap[o.status]||"background:#f3f4f6;color:#4b5563";
+    var tlHtml='';
+    if(o.timeline&&o.timeline.length){
+      var tl=o.timeline.slice().reverse();
+      tl.forEach(function(tm){
+        tlHtml+='<div style="display:flex;gap:10px;margin-bottom:8px">'
+          +'<div style="width:10px;height:10px;border-radius:50%;background:#f97316;margin-top:3px;flex-shrink:0;box-shadow:0 0 0 3px rgba(249,115,22,0.2)"></div>'
+          +'<div><div style="font-size:13px;font-weight:600;color:#1f2937">'+tm.action+'</div>'
+          +'<div style="font-size:11px;color:#9ca3af;margin-top:2px">'+tm.time+' · '+tm.by+'</div></div></div>';
+      });
+    }
+    var itsHtml='';
+    if(its.some(function(r){return r.itemName;})){
+      itsHtml='<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:6px">'
+        +'<thead><tr style="background:#f8fafc"><th style="border:1px solid #e5e7eb;padding:5px 8px;text-align:left">#</th>'
+        +'<th style="border:1px solid #e5e7eb;padding:5px 8px;text-align:left">'+t.itemName+'</th>'
+        +'<th style="border:1px solid #e5e7eb;padding:5px 8px;text-align:center">'+t.itemQty+'</th>'
+        +'<th style="border:1px solid #e5e7eb;padding:5px 8px;text-align:center">'+t.itemWeight+'</th></tr></thead><tbody>';
+      its.filter(function(r){return r.itemName;}).forEach(function(r,i){
+        itsHtml+='<tr><td style="border:1px solid #e5e7eb;padding:4px 8px">'+(i+1)+'</td>'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px">'+r.itemName+'</td>'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px;text-align:center">'+(r.qty||0)+'件</td>'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px;text-align:center">'+(r.weight||0)+'kg</td></tr>';
+      });
+      var tQ=its.reduce(function(s,r){return s+(parseFloat(r.qty)||0);},0);
+      var tW=its.reduce(function(s,r){return s+(parseFloat(r.weight)||0);},0).toFixed(1);
+      itsHtml+='<tr style="background:#fff7ed"><td colspan="2" style="border:1px solid #e5e7eb;padding:4px 8px;text-align:right;font-weight:700">'+t.subtotal+'</td>'
+        +'<td style="border:1px solid #e5e7eb;padding:4px 8px;text-align:center;font-weight:700;color:#f97316">'+tQ+'件</td>'
+        +'<td style="border:1px solid #e5e7eb;padding:4px 8px;text-align:center;font-weight:700;color:#f97316">'+tW+'kg</td></tr>'
+        +'</tbody></table>';
+    }
+    var prdsHtml='';
+    if(prds.some(function(p){return p.name||p.link||p.qty;})){
+      prdsHtml='<div style="margin-top:12px">'
+        +'<div style="background:linear-gradient(90deg,#1a3a5c,#1e4976);color:white;padding:7px 12px;border-radius:6px 6px 0 0;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px">'
+        +'<div style="width:3px;height:14px;background:#f0a800;border-radius:2px"></div>'+t.purchaseList  +'</div>'
+        +'<div style="overflow-x:auto;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 6px 6px">'
+        +'<table style="width:100%;border-collapse:collapse;font-size:12px;min-width:420px">'
+        +'<thead><tr style="background:#1a5c4a;color:white">'
+        +'<th style="border:1px solid #2a7a62;padding:5px 8px">#</th>'
+        +'<th style="border:1px solid #2a7a62;padding:5px 8px">'+t.prodName+'</th>'
+        +'<th style="border:1px solid #2a7a62;padding:5px 8px">'+t.prodLink+'</th>'
+        +'<th style="border:1px solid #2a7a62;padding:5px 8px;text-align:center">'+t.itemQty+'</th>'
+        +'<th style="border:1px solid #2a7a62;padding:5px 8px;text-align:right">'+t.prodPrice+'</th>'
+        +'<th style="border:1px solid #2a7a62;padding:5px 8px;text-align:right">'+t.prodSub+'</th>'
+        +'</tr></thead><tbody>';
+      prds.filter(function(p){return p.name||p.link||p.qty;}).forEach(function(r,i){
+        var sub=r.qty&&r.price?(parseFloat(r.qty)||0)*(parseFloat(r.price)||0):'';
+        prdsHtml+='<tr style="background:'+(i%2===0?'white':'#f0fdf4')+'">'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px">'+(i+1)+'</td>'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px">'+(r.name||'-')+'</td>'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px;color:#2563eb">'+(r.link||'-')+'</td>'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px;text-align:center">'+(r.qty||'-')+'</td>'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px;text-align:right">'+(r.price?'¥'+r.price:'-')+'</td>'
+          +'<td style="border:1px solid #e5e7eb;padding:4px 8px;text-align:right;font-weight:700;color:#f97316">'+(sub!==''?'¥'+sub.toFixed(2):'-')+'</td></tr>';
+      });
+      var pTotal=prds.reduce(function(s,r){return s+(parseFloat(r.qty)||0)*(parseFloat(r.price)||0);},0);
+      prdsHtml+='<tr style="background:#fff7ed"><td colspan="4" style="border:1px solid #e5e7eb;padding:4px 8px;text-align:right;font-weight:700">'+t.subtotal+'</td>'
+        +'<td colspan="2" style="border:1px solid #e5e7eb;padding:4px 8px;text-align:right;font-weight:800;color:#f97316">¥'+pTotal.toFixed(2)+'</td></tr>'
+        +'</tbody></table></div></div>';
+    }
+    html+='<div style="background:white;border-radius:14px;margin-bottom:12px;border:1px solid #e5e7eb;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06)">'
+      +'<div style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="togglePubCard(\''+sid+'\')">'
+      +'<div style="flex:1">'
+      +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">'
+      +'<span style="background:linear-gradient(135deg,#f97316,#ea580c);color:white;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800">#'+on+'</span>'
+      +'<span style="padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;'+stStyle+'">'+o.status+'</span>'
+      +(o.shipType?'<span style="padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700;background:'+(o.shipType==='空运'?'#dbeafe':'#dcfce7')+';color:'+(o.shipType==='空运'?'#1d4ed8':'#15803d')+'">'+(o.shipType==='空运'?'✈️':'🚛')+o.shipType+'</span>':"")
+      +(o.bizType?'<span style="padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;background:#fff7ed;color:#f97316">'+o.bizType+'</span>':"")
+      +'</div>'
+      +'<div style="font-weight:700;font-size:15px;color:#1f2937;margin-bottom:3px">'+(o.customerName||'')+'</div>'
+      +'<div style="font-size:12px;color:#9ca3af">'
+      +(o.intlTrackNo?'<span>🌐 '+o.intlTrackNo+'&nbsp;&nbsp;</span>':"")
+      +(o.domesticTrackNos?'<span>🚚 '+o.domesticTrackNos+'</span>':"")
+      +'</div>'
+      +'</div>'
+      +'<div id="arrow-'+sid+'" style="font-size:18px;color:#f97316;transition:transform 0.2s;margin-left:12px">⌄</div>'
+      +'</div>'
+      +'<div id="'+sid+'" style="display:none;padding:0 16px 16px 16px;border-top:1px solid #f3f4f6">'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;margin-bottom:12px">'
+      +'<div style="background:#f9fafb;border-radius:8px;padding:10px"><div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px">'+t.phone+'</div><div style="font-weight:600;font-size:13px;margin-top:3px;color:#1f2937">'+(o.customerPhone||'-')+'</div></div>'
+      +'<div style="background:#f9fafb;border-radius:8px;padding:10px"><div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px">'+t.bizTypeL+'</div><div style="font-weight:600;font-size:13px;margin-top:3px;color:#1f2937">'+(o.bizType||'-')+'</div></div>'
+      +(o.fee?'<div style="background:#f9fafb;border-radius:8px;padding:10px"><div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px">运费</div><div style="font-weight:600;font-size:13px;margin-top:3px;color:#f97316">¥'+o.fee+'</div></div>':"")
+      +(o.codAmount?'<div style="background:#f9fafb;border-radius:8px;padding:10px"><div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px">到付金额</div><div style="font-weight:600;font-size:13px;margin-top:3px;color:#f97316">¥'+o.codAmount+'</div></div>':"")
+      +'</div>'
+      +(o.customerAddress?'<div style="background:#f9fafb;border-radius:8px;padding:10px;margin-bottom:12px"><div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">'+t.address+'</div><div style="font-size:13px;font-weight:600;color:#1f2937">📍 '+o.customerAddress+'</div></div>':"")
+      +(o.domesticTrackNos?'<div style="background:#eff6ff;border-radius:8px;padding:10px;margin-bottom:8px"><div style="font-size:10px;color:#6b7280;margin-bottom:3px">'+t.domTrack+'</div><div style="font-size:13px;font-weight:700;color:#1d4ed8">🚚 '+o.domesticTrackNos+'</div></div>':"")
+      +(o.intlTrackNo?'<div style="background:#eff6ff;border-radius:8px;padding:10px;margin-bottom:12px"><div style="font-size:10px;color:#6b7280;margin-bottom:3px">'+t.intlTrack+'</div><div style="font-size:13px;font-weight:700;color:#1d4ed8">🌐 '+o.intlTrackNo+'</div></div>':"")
+      +itsHtml+prdsHtml
+      +(o.remark?'<div style="background:#fff7ed;border-radius:8px;padding:10px;margin-top:12px"><div style="font-size:10px;color:#9ca3af;margin-bottom:3px">'+t.remark+'</div><div style="font-size:13px;color:#92400e">'+o.remark+'</div></div>':"")
+      +(tlHtml?'<div style="margin-top:16px"><div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">📍 '+t.logTrack+'</div>'+tlHtml+'</div>':"")
+      +'</div></div>';
+  });
+  ri.innerHTML=html;
+}
+
+function togglePubCard(sid){
+  var el=document.getElementById(sid);
+  var arrow=document.getElementById('arrow-'+sid);
+  if(!el)return;
+  var isOpen=el.style.display!=='none';
+  el.style.display=isOpen?'none':'block';
+  if(arrow)arrow.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)';
+}
+
+function sbadge(s){return '<span class="badge '+(STC[s]||'bgr2')+'">'+getSTSLabel(s)+'</span>';}
+
+function logo(sz){
+  return '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+    +'<rect width="200" height="200" fill="#f0a800" rx="16"/>'
+    +'<circle cx="100" cy="90" r="70" fill="#e8192c"/>'
+    +'<line x1="50" y1="55" x2="38" y2="44" stroke="#fff" stroke-width="4" stroke-linecap="round"/>'
+    +'<line x1="46" y1="67" x2="32" y2="63" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>'
+    +'<ellipse cx="100" cy="148" rx="30" ry="18" fill="white" stroke="#111" stroke-width="2.5"/>'
+    +'<ellipse cx="62" cy="128" rx="17" ry="14" fill="white" stroke="#111" stroke-width="2.5"/>'
+    +'<ellipse cx="55" cy="118" rx="10" ry="9" fill="white" stroke="#111" stroke-width="2"/>'
+    +'<ellipse cx="138" cy="128" rx="17" ry="14" fill="white" stroke="#111" stroke-width="2.5"/>'
+    +'<ellipse cx="145" cy="118" rx="10" ry="9" fill="white" stroke="#111" stroke-width="2"/>'
+    +'<rect x="58" y="46" width="84" height="80" rx="28" ry="28" fill="white" stroke="#111" stroke-width="2.5"/>'
+    +'<polygon points="66,52 60,30 82,46" fill="white" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>'
+    +'<polygon points="134,52 140,30 118,46" fill="white" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>'
+    +'<path d="M58,62 Q62,46 80,46 Q94,48 96,64 Q98,78 92,92 Q84,100 68,96 Q56,88 58,68Z" fill="#c86832" stroke="#111" stroke-width="1.5"/>'
+    +'<path d="M70,76 Q79,68 88,76" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    +'<path d="M112,76 Q121,68 130,76" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    +'<path d="M82,95 Q84,116 100,118 Q116,116 118,95 Q110,102 100,103 Q90,102 82,95Z" fill="#111"/>'
+    +'<ellipse cx="100" cy="110" rx="10" ry="6" fill="#e05560" opacity="0.7"/>'
+    +'<path d="M22,155 Q100,168 178,155 L174,174 Q100,185 26,174 Z" fill="#c0392b" stroke="#111" stroke-width="2.5"/>'
+    +'<polygon points="22,155 15,143 32,152" fill="#8b1a1a"/>'
+    +'<polygon points="178,155 185,143 168,152" fill="#8b1a1a"/>'
+    +'<text x="100" y="172" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="16" fill="white" stroke="#111" stroke-width="2" paint-order="stroke">CAT LOGISTICS</text>'
+    +'</svg>';
+}
+
+function hdr(back){
+  var t=T();
+  var sy=S.sync==="syncing"?'<span class="sing">'+t.syncing+'</span>':S.sync==="ok"?'<span class="sok">'+t.synced+'</span>':"";
+  var bb=back?'<button class="btn bgh bsm" onclick="set({page:\'login\'})">← </button>':"";
+  var ui=S.user?'<button class="btn bgh bsm" onclick="doLogout()">'+t.logout+'</button>':"";
+  var lb='<button class="lang-btn" onclick="set({lang:S.lang===\'zh\'?\'mm\':\'zh\'})">'+(S.lang==="zh"?"မြန်မာ":"中文")+'</button>';
+  return '<div class="hdr"><div style="display:flex;align-items:center;gap:10px">'+bb+logo(36)+'<div><div style="font-weight:800;font-size:15px">'+t.appName+'</div><div style="font-size:10px;opacity:.85">'+t.appSub+'</div></div></div><div style="display:flex;align-items:center;gap:8px">'+sy+lb+ui+'</div></div>';
+}
+
+function exportExcel(orders){
+  var H=["订单编号","业务","运输","付款","客户姓名","电话","地址","货物","数量","重量","国内单号","国际单号","运费","到付","成本","状态","创建时间","备注"];
+  var R=orders.map(function(o){
+    var its=Array.isArray(o.items)?o.items:[];
+    var itS=its.filter(function(r){return r.itemName;}).map(function(r){return r.itemName+"x"+(r.qty||0);}).join("|");
+    var tQ=its.reduce(function(s,r){return s+(parseFloat(r.qty)||0);},0);
+    var tW=its.reduce(function(s,r){return s+(parseFloat(r.weight)||0);},0).toFixed(1);
+    return[o.orderNo||"",o.bizType||"",o.shipType||"",o.payStatus||"",o.customerName||"",o.customerPhone||"",o.customerAddress||"",itS,tQ,tW,o.domesticTrackNos||"",o.intlTrackNo||"",o.fee||"",o.codAmount||"",o.cost||"",o.status||"",o.createdAt||"",o.remark||""];
+  });
+  var rows=[H].concat(R);
+  var csv=rows.map(function(row){
+    return row.map(function(cell){
+      var s=String(cell).replace(/"/g,'""');
+      return '"'+s+'"';
+    }).join(',');
+  }).join('\r\n');
+  var bom='\uFEFF';
+  var blob=new Blob([bom+csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;
+  var date=new Date();
+  var dateStr=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+  a.download='cat-orders-'+dateStr+'.csv';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},500);
+}
+
+function renderLogin(){
+  var t=T();
+  var isMobile=window.innerWidth<768;
+  if(isMobile){
+    return '<div style="min-height:100vh;background:#0d0d1a;font-family:\'Segoe UI\',Arial,sans-serif;display:flex;flex-direction:column;overflow-y:auto;position:relative">'
+    // bg grid
+    +'<div style="position:fixed;inset:0;background-image:linear-gradient(rgba(249,115,22,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,0.04) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0"></div>'
+    +'<div style="position:fixed;top:-60px;right:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(249,115,22,0.1) 0%,transparent 70%);pointer-events:none;z-index:0"></div>'
+    // header strip
+    +'<div style="position:relative;z-index:1;padding:20px 20px 0;display:flex;align-items:center;gap:10px">'
+    +logo(40)
+    +'<div>'
+    +'<div style="font-size:16px;font-weight:900;color:#fff;line-height:1.2">橘猫国际物流</div>'
+    +'<div style="font-size:9px;color:#f97316;letter-spacing:1.5px;margin-top:2px">CAT INTERNATIONAL LOGISTICS</div>'
+    +'</div>'
+    +'<div style="margin-left:auto">'
+    +'<button onclick="set({lang:S.lang===\'zh\'?\'mm\':\'zh\'})" style="background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.4);color:#f97316;border-radius:16px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">'+(S.lang==="zh"?"မြန်မာ":"中文")+'</button>'
+    +'</div></div>'
+    // route badges
+    +'<div style="position:relative;z-index:1;display:flex;justify-content:center;align-items:center;gap:6px;padding:14px 20px 0;flex-wrap:wrap">'
+    +'<div style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.25);border-radius:16px;padding:4px 10px;font-size:10px;color:#f97316;display:flex;align-items:center;gap:4px"><span style="width:5px;height:5px;background:#22c55e;border-radius:50%;display:inline-block;flex-shrink:0"></span>'+t.route1+'</div>'
+    +'<div style="color:#4b5563;font-size:11px">→</div>'
+    +'<div style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.25);border-radius:16px;padding:4px 10px;font-size:10px;color:#f97316;display:flex;align-items:center;gap:4px"><span style="width:5px;height:5px;background:#f97316;border-radius:50%;display:inline-block;flex-shrink:0"></span>'+t.route2+'</div>'
+    +'</div>'
+    // login card
+    +'<div style="position:relative;z-index:1;flex:1;padding:16px 20px 30px;display:flex;flex-direction:column;gap:0">'
+    +'<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:22px;margin-bottom:14px">'
+    +'<div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:3px">'+t.welcome+'</div>'
+    +'<div style="font-size:11px;color:#6b7280;margin-bottom:16px">'+t.login+' · Employee Login</div>'
+    // lang toggle
+    +'<div style="display:flex;gap:6px;margin-bottom:16px">'
+    +'<button onclick="set({lang:\'zh\'})" style="flex:1;padding:7px;border-radius:8px;border:1px solid '+(S.lang==='zh'?'#f97316':'rgba(255,255,255,0.1)')+';background:'+(S.lang==='zh'?'rgba(249,115,22,0.15)':'transparent')+';color:'+(S.lang==='zh'?'#f97316':'#6b7280')+';font-size:12px;font-weight:600;cursor:pointer">中文</button>'
+    +'<button onclick="set({lang:\'mm\'})" style="flex:1;padding:7px;border-radius:8px;border:1px solid '+(S.lang==='mm'?'#f97316':'rgba(255,255,255,0.1)')+';background:'+(S.lang==='mm'?'rgba(249,115,22,0.15)':'transparent')+';color:'+(S.lang==='mm'?'#f97316':'#6b7280')+';font-size:12px;font-weight:600;cursor:pointer">မြန်မာ</button>'
+    +'</div>'
+    // username
+    +'<div style="margin-bottom:12px">'
+    +'<label style="display:block;font-size:10px;font-weight:700;color:#9ca3af;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px">'+t.username+'</label>'
+    +'<div style="position:relative">'
+    +'<div style="position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;line-height:1">👤</div>'
+    +'<input style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 11px 11px 33px;font-size:14px;color:#fff;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'#f97316\'" onblur="this.style.borderColor=\'rgba(255,255,255,0.1)\'" value="'+S.lu+'" oninput="S.lu=this.value" onkeydown="if(event.key===\'Enter\')doLogin()" placeholder="'+t.username+'"/>'
+    +'</div></div>'
+    // password
+    +'<div style="margin-bottom:14px">'
+    +'<label style="display:block;font-size:10px;font-weight:700;color:#9ca3af;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px">'+t.password+'</label>'
+    +'<div style="position:relative">'
+    +'<div style="position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;line-height:1">🔒</div>'
+    +'<input style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 11px 11px 33px;font-size:14px;color:#fff;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'#f97316\'" onblur="this.style.borderColor=\'rgba(255,255,255,0.1)\'" type="password" value="'+S.lp+'" oninput="S.lp=this.value" onkeydown="if(event.key===\'Enter\')doLogin()" placeholder="'+t.password+'"/>'
+    +'</div></div>'
+    +(S.lerr?'<div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:9px;font-size:12px;color:#f87171;margin-bottom:12px;text-align:center">⚠️ '+S.lerr+'</div>':"")
+    +'<button onclick="doLogin()" style="width:100%;padding:13px;background:linear-gradient(135deg,#f97316,#ea580c);border:none;border-radius:10px;color:white;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:12px">'+t.loginBtn+'</button>'
+    +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><div style="flex:1;height:1px;background:rgba(255,255,255,0.06)"></div><div style="font-size:10px;color:#4b5563">'+t.custEntry+'</div><div style="flex:1;height:1px;background:rgba(255,255,255,0.06)"></div></div>'
+    +'<button onclick="set({page:\'public\'})" style="width:100%;padding:11px;background:transparent;border:1.5px solid rgba(249,115,22,0.4);border-radius:10px;color:#f97316;font-size:13px;font-weight:700;cursor:pointer">📦 '+t.queryBtn+'</button>'
+    +'</div>'
+    // stats row
+    +'<div style="display:flex;justify-content:center;gap:0;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;overflow:hidden">'
+    +'<div style="flex:1;text-align:center;padding:12px 8px"><div style="font-size:18px;font-weight:900;color:#f97316">99%</div><div style="font-size:10px;color:#6b7280;margin-top:2px">'+t.stat1+'</div></div>'
+    +'<div style="width:1px;background:rgba(255,255,255,0.06)"></div>'
+    +'<div style="flex:1;text-align:center;padding:12px 8px"><div style="font-size:18px;font-weight:900;color:#f97316">24h</div><div style="font-size:10px;color:#6b7280;margin-top:2px">实时追踪</div></div>'
+    +'<div style="width:1px;background:rgba(255,255,255,0.06)"></div>'
+    +'<div style="flex:1;text-align:center;padding:12px 8px"><div style="font-size:18px;font-weight:900;color:#f97316">5城</div><div style="font-size:10px;color:#6b7280;margin-top:2px">'+t.stat3+'</div></div>'
+    +'</div>'
+    +'</div>'
+    +'</div>';
+  }
+  return '<div style="min-height:100vh;display:flex;background:#0d0d1a;font-family:\'Segoe UI\',Arial,sans-serif;overflow:hidden">'
+  +'<div style="flex:1;position:relative;display:flex;flex-direction:column;justify-content:center;padding:60px;overflow:hidden;min-height:100vh">'
+  +'<div style="position:absolute;inset:0;background-image:linear-gradient(rgba(249,115,22,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,0.06) 1px,transparent 1px);background-size:40px 40px;"></div>'
+  +'<div style="position:absolute;top:-100px;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(249,115,22,0.15) 0%,transparent 70%);pointer-events:none"></div>'
+  +'<div style="position:absolute;bottom:-150px;right:-50px;width:400px;height:400px;background:radial-gradient(circle,rgba(234,88,12,0.1) 0%,transparent 70%);pointer-events:none"></div>'
+  +'<div style="position:relative;z-index:2;margin-bottom:40px">'
+  +'<div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">'+logo(72)
+  +'<div><div style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-0.5px">橘猫国际物流</div>'
+  +'<div style="font-size:12px;color:#f97316;letter-spacing:3px;margin-top:3px">CAT INTERNATIONAL LOGISTICS</div></div></div>'
+  +'<div style="font-size:38px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:16px">'+t.tagline1+'<br/><span style="color:#f97316">'+t.tagline2+'</span><br/>'+t.tagline3+'</div>'
+  +'<div style="font-size:14px;color:#6b7280;line-height:1.8;max-width:320px">'+t.taglineDesc.replace(/\\n/,"<br/>").replace(/\n/,"<br/>")+ '</div></div>'
+  +'<div style="position:relative;z-index:2;display:flex;gap:24px;margin-top:8px">'
+  +'<div style="text-align:center"><div style="font-size:24px;font-weight:900;color:#f97316">99%</div><div style="font-size:11px;color:#6b7280;margin-top:2px">'+t.stat1+'</div></div>'
+  +'<div style="width:1px;background:#1f2937;margin:4px 0"></div>'
+  +'<div style="text-align:center"><div style="font-size:24px;font-weight:900;color:#f97316">24h</div><div style="font-size:11px;color:#6b7280;margin-top:2px">实时追踪</div></div>'
+  +'<div style="width:1px;background:#1f2937;margin:4px 0"></div>'
+  +'<div style="text-align:center"><div style="font-size:24px;font-weight:900;color:#f97316">5城</div><div style="font-size:11px;color:#6b7280;margin-top:2px">'+t.stat3+'</div></div>'
+  +'</div>'
+  +'<div style="position:relative;z-index:2;margin-top:32px;display:flex;align-items:center;gap:8px">'
+  +'<div style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);border-radius:20px;padding:6px 14px;font-size:12px;color:#f97316;display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block"></span>'+t.route1+'</div>'
+  +'<div style="color:#4b5563;font-size:14px">→</div>'
+  +'<div style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);border-radius:20px;padding:6px 14px;font-size:12px;color:#f97316;display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;background:#f97316;border-radius:50%;display:inline-block"></span>'+t.route2+'</div>'
+  +'</div></div>'
+  +'<div style="width:480px;display:flex;align-items:center;justify-content:center;padding:40px;background:rgba(255,255,255,0.02);border-left:1px solid rgba(255,255,255,0.05)">'
+  +'<div style="width:100%;max-width:360px">'
+  +'<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:40px">'
+  +'<div style="margin-bottom:32px"><div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">'+t.welcome+'</div>'
+  +'<div style="font-size:13px;color:#6b7280">'+t.login+' · Employee Login</div></div>'
+  +'<div style="display:flex;gap:8px;margin-bottom:24px">'
+  +'<button onclick="set({lang:\'zh\'})" style="flex:1;padding:8px;border-radius:8px;border:1px solid '+(S.lang==='zh'?'#f97316':'rgba(255,255,255,0.1)')+';background:'+(S.lang==='zh'?'rgba(249,115,22,0.15)':'transparent')+';color:'+(S.lang==='zh'?'#f97316':'#6b7280')+';font-size:12px;font-weight:600;cursor:pointer">中文</button>'
+  +'<button onclick="set({lang:\'mm\'})" style="flex:1;padding:8px;border-radius:8px;border:1px solid '+(S.lang==='mm'?'#f97316':'rgba(255,255,255,0.1)')+';background:'+(S.lang==='mm'?'rgba(249,115,22,0.15)':'transparent')+';color:'+(S.lang==='mm'?'#f97316':'#6b7280')+';font-size:12px;font-weight:600;cursor:pointer">မြန်မာ</button>'
+  +'</div>'
+  +'<div style="margin-bottom:16px"><label style="display:block;font-size:11px;font-weight:700;color:#9ca3af;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">'+t.username+'</label>'
+  +'<div style="position:relative"><div style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#4b5563;font-size:16px">👤</div>'
+  +'<input style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 12px 11px 38px;font-size:14px;color:#fff;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'#f97316\'" onblur="this.style.borderColor=\'rgba(255,255,255,0.1)\'" value="'+S.lu+'" oninput="S.lu=this.value" onkeydown="if(event.key===\'Enter\')doLogin()" placeholder="'+t.username+'"/></div></div>'
+  +'<div style="margin-bottom:20px"><label style="display:block;font-size:11px;font-weight:700;color:#9ca3af;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">'+t.password+'</label>'
+  +'<div style="position:relative"><div style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#4b5563;font-size:16px">🔒</div>'
+  +'<input style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 12px 11px 38px;font-size:14px;color:#fff;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'#f97316\'" onblur="this.style.borderColor=\'rgba(255,255,255,0.1)\'" type="password" value="'+S.lp+'" oninput="S.lp=this.value" onkeydown="if(event.key===\'Enter\')doLogin()" placeholder="'+t.password+'"/></div></div>'
+  +(S.lerr?'<div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:10px 12px;font-size:12px;color:#f87171;margin-bottom:16px;text-align:center">⚠️ '+S.lerr+'</div>':"")
+  +'<button onclick="doLogin()" style="width:100%;padding:14px;background:linear-gradient(135deg,#f97316,#ea580c);border:none;border-radius:12px;color:white;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:0.5px;margin-bottom:16px">'+t.loginBtn+'</button>'
+  +'<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div style="flex:1;height:1px;background:rgba(255,255,255,0.06)"></div><div style="font-size:11px;color:#4b5563">'+t.custEntry+'</div><div style="flex:1;height:1px;background:rgba(255,255,255,0.06)"></div></div>'
+  +'<button onclick="set({page:\'public\'})" style="width:100%;padding:12px;background:transparent;border:1.5px solid rgba(249,115,22,0.4);border-radius:12px;color:#f97316;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span>📦</span><span>'+t.queryBtn+'</span></button>'
+  +'</div>'
+  +'<div style="display:flex;justify-content:center;gap:20px;margin-top:28px">'
+  +'<div style="text-align:center"><div style="font-size:18px">☁️</div><div style="font-size:10px;color:#4b5563;margin-top:3px">云端同步</div></div>'
+  +'<div style="text-align:center"><div style="font-size:18px">🔐</div><div style="font-size:10px;color:#4b5563;margin-top:3px">安全加密</div></div>'
+  +'<div style="text-align:center"><div style="font-size:18px">📱</div><div style="font-size:10px;color:#4b5563;margin-top:3px">多端适配</div></div>'
+  +'<div style="text-align:center"><div style="font-size:18px">⚡</div><div style="font-size:10px;color:#4b5563;margin-top:3px">实时追踪</div></div>'
+  +'</div></div></div></div>';
+}
+
+function renderPublic(){
+  var t=T();
+  return '<div class="pwrap">'+hdr(true)
+    +'<div class="page">'
+    +'<div class="card" style="margin-bottom:14px;padding:20px">'
+    +'<div style="font-weight:700;font-size:15px;margin-bottom:4px">'+t.pubTitle+'</div>'
+    +'<div style="font-size:12px;color:#9ca3af;margin-bottom:12px">'+t.pubDesc+'</div>'
+    +'<div style="display:flex;gap:8px">'
+    +'<input id="pub-inp" class="inp" style="flex:1" placeholder="'+t.pubPlaceholder+'" onkeydown="if(event.key===\'Enter\')doPubSearch()"/>'
+    +'<button class="btn bo" onclick="doPubSearch()">'+t.pubSearch+'</button>'
+    +'</div></div>'
+    +'<div id="pub-results"></div>'
+    +'</div></div>';
+}
+
+function renderDetail(){
+  var o=S.detail;
+  if(!o)return"";
+  var t=T();
+  var its=Array.isArray(o.items)?o.items:[];
+  var isA=S.user&&S.user.role==="admin";
+  var on=String(o.orderNo||o.id||'');
+  var html='<div class="overlay" onclick="if(event.target===this)set({detail:null})">'
+    +'<div class="modal">'
+    +'<div class="mhdr"><div style="display:flex;align-items:center;gap:10px"><span class="ono">#'+on+'</span><span>订单详情</span></div>'
+    +'<button class="mcl" onclick="set({detail:null})">×</button></div>'
+    +'<div class="mbody">'
+    +'<div style="display:flex;gap:6px;flex-wrap:wrap">'+sbadge(o.status)
+    +(o.shipType?'<span class="'+(o.shipType==='空运'?'air':'land')+'">'+(o.shipType==='空运'?'✈️':'🚛')+o.shipType+'</span>':"")
+    +(o.bizType?'<span class="badge bon">'+o.bizType+'</span>':"")
+    +(o.payStatus?'<span class="badge '+(o.payStatus==='已付'?'bgn':'brd')+'">'+(o.payStatus==='已付'?t.paidTag:t.unpaidTag)+'</span>':"")
+    +'</div>'
+    +'<div class="g2">'
+    +'<div><div style="font-size:10px;color:#9ca3af">客户姓名</div><div style="font-weight:600">'+(o.customerName||'-')+'</div></div>'
+    +'<div><div style="font-size:10px;color:#9ca3af">'+t.phone+'</div><div style="font-weight:600">'+(o.customerPhone||'-')+'</div></div>'
+    +'<div><div style="font-size:10px;color:#9ca3af">运费</div><div style="font-weight:600">'+(o.fee?'¥'+o.fee:'-')+'</div></div>'
+    +'<div><div style="font-size:10px;color:#9ca3af">到付金额</div><div style="font-weight:600">'+(o.codAmount?'¥'+o.codAmount:'-')+'</div></div>'
+    +'</div>';
+  if(o.customerAddress)html+='<div><div style="font-size:10px;color:#9ca3af">'+t.address+'</div><div style="font-weight:600">📍 '+o.customerAddress+'</div></div>';
+  if(o.domesticTrackNos)html+='<div><div style="font-size:10px;color:#9ca3af">'+t.domTrack+'</div><div style="font-weight:600">🚚 '+o.domesticTrackNos+'</div></div>';
+  if(o.intlTrackNo)html+='<div><div style="font-size:10px;color:#9ca3af">'+t.intlTrack+'</div><div style="font-weight:600">🌐 '+o.intlTrackNo+'</div></div>';
+  if(its.some(function(r){return r.itemName;})){
+    html+='<div><div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">货物明细</div>'
+      +'<table class="tbl"><thead><tr><th>#</th><th>'+t.itemName+'</th><th style=\"text-align:center\">'+t.itemQty+'</th><th style=\"text-align:center\">'+t.itemWeight+'</th></tr></thead><tbody>';
+    its.filter(function(r){return r.itemName;}).forEach(function(r,i){html+='<tr><td>'+(i+1)+'</td><td>'+r.itemName+'</td><td style="text-align:center">'+(r.qty||0)+'件</td><td style="text-align:center">'+(r.weight||0)+'kg</td></tr>';});
+    html+='</tbody><tfoot><tr style="background:#fff7ed"><td colspan="2" style="text-align:right;font-weight:700">'+t.subtotal+'</td>'
+      +'<td style="text-align:center;font-weight:700;color:#f97316">'+its.reduce(function(s,r){return s+(parseFloat(r.qty)||0);},0)+'件</td>'
+      +'<td style="text-align:center;font-weight:700;color:#f97316">'+its.reduce(function(s,r){return s+(parseFloat(r.weight)||0);},0).toFixed(1)+'kg</td></tr></tfoot></table></div>';
+  }
+  if(o.remark)html+='<div><div style="font-size:10px;color:#9ca3af">'+t.remark+'</div><div style="font-weight:600">'+o.remark+'</div></div>';
+  if(S.user){
+    html+='<div style="display:flex;gap:8px">';
+    if(isA)html+='<button class="btn bo" style="flex:1" onclick="openEditDetail()">'+t.editBtn+'</button>';
+    html+='<button class="btn bgr" style="flex:1" onclick="set({stsModal:S.detail})">🔄 '+t.updateSts+'</button></div>';
+  }
+  if(o.timeline&&o.timeline.length){
+    html+='<div><div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">'+t.logTrack+'</div>';
+    var tl=o.timeline.slice().reverse();
+    tl.forEach(function(tm){html+='<div class="tld"><div class="tldot"></div><div><div style="font-size:13px;font-weight:600">'+tm.action+'</div><div style="font-size:11px;color:#9ca3af">'+tm.time+' · '+tm.by+'</div></div></div>';});
+    html+='</div>';
+  }
+  html+='</div></div></div>';
+  return html;
+}
+
+function openEditDetail(){
+  var o=S.detail;
+  set({detail:null,form:Object.assign({},o,{items:Array.isArray(o.items)?o.items:[eI()],products:Array.isArray(o.products)?o.products:[eP(),eP(),eP(),eP(),eP(),eP()]}),editId:o.id,ferr:"",showForm:true});
+}
+
+function renderSts(){
+  var o=S.stsModal;if(!o)return"";
+  var t=T();
+  var icons={"待处理订单":"⏳","瑞丽已签收":"📦","木姐已签收":"🚛","腊戌已签收":"🏙️","瓦城已签收":"✅","客户已取货":"🎉"};
+  var on=String(o.orderNo||o.id||'');
+  var html='<div class="overlay" onclick="if(event.target===this)closeSts()">'
+    +'<div class="modal" style="max-width:380px;border-radius:20px 20px 0 0;padding:20px">'
+    +'<div style="font-weight:700;font-size:15px;margin-bottom:4px">'+t.updateSts+'</div>'
+    +'<div style="font-size:12px;color:#9ca3af;margin-bottom:16px">#'+on+' · '+o.customerName+'</div>'
+    +'<div style="display:flex;flex-direction:column;gap:6px">';
+  STS.forEach(function(s){
+    html+='<button onclick="updSts(\''+o.id+'\',\''+s+'\')" style="text-align:left;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;border:2px solid '+(o.status===s?'#f97316':'#e5e7eb')+';background:'+(o.status===s?'#fff7ed':'white')+';color:'+(o.status===s?'#f97316':'#374151')+';cursor:pointer">'+(icons[s]||'•')+' '+getSTSLabel(s)+(o.status===s?' ✓':'')+'</button>';
+  });
+  html+='</div><button class="btn bg_" style="width:100%;margin-top:10px" onclick="closeSts()">'+t.cancel+'</button></div></div>';
+  return html;
+}
+
+function renderForm(){
+  if(!S.showForm)return"";
+  var t=T();var f=S.form;
+  var items=f.items||[eI()];
+  var tQ=items.reduce(function(s,r){return s+(parseFloat(r.qty)||0);},0);
+  var tW=items.reduce(function(s,r){return s+(parseFloat(r.weight)||0);},0).toFixed(1);
+  var iRows="";
+  items.forEach(function(r,i){
+    iRows+='<tr style="background:'+(i%2===0?'white':'#f9fafb')+'">'
+      +'<td style="border:1px solid #e5e7eb;text-align:center;color:#9ca3af;font-size:11px;padding:2px;width:28px">'+(i+1)+'</td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px"><input class="tinp" placeholder=t.itemName value="'+(r.itemName||'')+'" onchange="S.form.items['+i+'].itemName=this.value"/></td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px;width:70px"><input class="tinp" type="number" style="text-align:center" value="'+(r.qty||'')+'" onchange="S.form.items['+i+'].qty=this.value"/></td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px;width:70px"><input class="tinp" type="number" style="text-align:center" value="'+(r.weight||'')+'" onchange="S.form.items['+i+'].weight=this.value"/></td>'
+      +'<td style="border:1px solid #e5e7eb;text-align:center;width:28px">'+(items.length>1?'<button onclick="S.form.items=S.form.items.filter(function(_,x){return x!=='+i+';});renderModals()" style="color:#ef4444;background:none;border:none;cursor:pointer;font-weight:800;font-size:15px">×</button>':"")+'</td>'
+      +'</tr>';
+  });
+  var prods=f.products||[];
+  var pRows="";
+  prods.forEach(function(r,i){
+    var sub=r.qty&&r.price?(parseFloat(r.qty)||0)*(parseFloat(r.price)||0):"";
+    pRows+='<tr style="background:'+(i%2===0?'white':'#f0fdf4')+'">'
+      +'<td style="border:1px solid #e5e7eb;text-align:center;color:#9ca3af;font-size:11px;padding:3px">'+(i+1)+'</td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px"><input class="tinp" placeholder=t.prodName value="'+(r.name||'')+'" onchange="S.form.products['+i+'].name=this.value"/></td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px"><input class="tinp" placeholder=t.prodLink value="'+(r.link||'')+'" onchange="S.form.products['+i+'].link=this.value"/></td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px;width:80px"><input class="tinp" placeholder=t.prodSpec value="'+(r.spec||'')+'" onchange="S.form.products['+i+'].spec=this.value"/></td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px;width:50px"><input class="tinp" type="number" style="text-align:center" value="'+(r.qty||'')+'" onchange="S.form.products['+i+'].qty=this.value"/></td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px;width:65px"><input class="tinp" type="number" style="text-align:right" value="'+(r.price||'')+'" onchange="S.form.products['+i+'].price=this.value"/></td>'
+      +'<td style="border:1px solid #e5e7eb;padding:3px 6px;text-align:right;background:#f9fafb;font-weight:700;color:#f97316;font-size:11px">'+(sub!==''?sub.toFixed(2):"")+'</td>'
+      +'<td style="border:1px solid #e5e7eb;padding:2px"><input class="tinp" value="'+(r.remark||'')+'" onchange="S.form.products['+i+'].remark=this.value"/></td>'
+      +'</tr>';
+  });
+  var pTotal=prods.reduce(function(s,r){return s+(parseFloat(r.qty)||0)*(parseFloat(r.price)||0);},0);
+  var html='<div class="overlay" onclick="if(event.target===this){closeForm();render();}">'
+    +'<div class="modal" id="form-modal">'
+    +'<div class="mhdr"><div style="display:flex;align-items:center;gap:8px">'+(S.editId?'<span class="ono">#'+f.orderNo+'</span><span>'+t.editOrder+'</span>':'<span class="badge bon">'+t.newOrderLabel+'</span><span>'+t.newOrderLabel+'</span>')+'</div>'
+    +'<button class="mcl" onclick="closeForm();render()">×</button></div>'
+    +'<div class="mbody">'
+    +'<div style="background:#f8fafc;border-radius:10px;padding:12px">'
+    +'<div style="font-weight:700;font-size:12px;color:#6b7280;margin-bottom:10px">📋 基本信息</div>'
+    +'<div class="g3" style="margin-bottom:10px">'
+    +'<div><label class="lbl">'+t.bizTypeL+'</label><select class="inp" onchange="S.form.bizType=this.value">'+BIZ.map(function(b){return'<option'+(f.bizType===b?' selected':'')+'>'+b+'</option>';}).join("")+'</select></div>'
+    +'<div><label class="lbl">运输方式</label><div style="display:flex;gap:6px;margin-top:2px">'
+    +'<button class="btn bsm" style="flex:1;'+(f.shipType==='陆运'?'background:#22c55e;color:white':'background:white;color:#374151;border:1.5px solid #e5e7eb')+'" onclick="S.form.shipType=\'陆运\';renderModals()">🚛 陆运</button>'
+    +'<button class="btn bsm" style="flex:1;'+(f.shipType==='空运'?'background:#3b82f6;color:white':'background:white;color:#374151;border:1.5px solid #e5e7eb')+'" onclick="S.form.shipType=\'空运\';renderModals()">✈️ 空运</button>'
+    +'</div></div>'
+    +'<div><label class="lbl">付款状态</label><select class="inp" onchange="S.form.payStatus=this.value">'
+    +'<option'+(f.payStatus==='未付'?' selected':'')+'>未付</option>'
+    +'<option'+(f.payStatus==='已付'?' selected':'')+'>已付</option>'
+    +'<option'+(f.payStatus==='部分付'?' selected':'')+'>部分付</option>'
+    +'</select></div></div>'
+    +'<div><label class="lbl">订单状态</label><select class="inp" onchange="S.form.status=this.value">'+STS.map(function(s){return'<option'+(f.status===s?' selected':'')+'>'+s+'</option>';}).join("")+'</select></div>'
+    +'</div>'
+    +'<div style="background:#f8fafc;border-radius:10px;padding:12px">'
+    +'<div style="font-weight:700;font-size:12px;color:#6b7280;margin-bottom:10px">👤 客户信息</div>'
+    +'<div class="g2" style="margin-bottom:10px">'
+    +'<div><label class="lbl">客户姓名 *</label><input class="inp" value="'+(f.customerName||'')+'" onchange="S.form.customerName=this.value"/></div>'
+    +'<div><label class="lbl">'+t.phoneR+'</label><input class="inp" value="'+(f.customerPhone||'')+'" onchange="S.form.customerPhone=this.value"/></div>'
+    +'</div>'
+    +'<div><label class="lbl">'+t.addressMM+'</label><input class="inp" value="'+(f.customerAddress||'')+'" onchange="S.form.customerAddress=this.value" placeholder="仰光市..."/></div>'
+    +'</div>'
+    +'<div style="background:#f8fafc;border-radius:10px;padding:12px">'
+    +'<div style="font-weight:700;font-size:12px;color:#6b7280;margin-bottom:10px">📬 物流单号</div>'
+    +'<div style="margin-bottom:10px"><label class="lbl">'+t.domTrackL+'</label><input class="inp" value="'+(f.domesticTrackNos||'')+'" onchange="S.form.domesticTrackNos=this.value" placeholder="SF123456, YT789012"/></div>'
+    +'<div><label class="lbl">'+t.intlTrackL+'</label><input class="inp" value="'+(f.intlTrackNo||'')+'" onchange="S.form.intlTrackNo=this.value"/></div>'
+    +'</div>'
+    +'<div>'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><label class="lbl" style="margin:0">'+t.goodsLabel+'</label>'
+    +'<button class="btn bo bxs" onclick="S.form.items.push(eI());renderModals()">'+t.addItem+'</button></div>'
+    +'<table class="tbl"><thead><tr style="background:#1a3a5c;color:white"><th style="width:28px">#</th><th>'+t.itemName+'</th><th style="text-align:center;width:70px">'+t.itemQty+'</th><th style="text-align:center;width:70px">'+t.itemWeight+'</th><th style="width:28px"></th></tr></thead>'
+    +'<tbody>'+iRows+'</tbody>'
+    +'<tfoot><tr style="background:#fff7ed"><td colspan="2" style="border:1px solid #e5e7eb;padding:6px 8px;text-align:right;font-weight:700;font-size:12px">'+t.subtotal+'</td>'
+    +'<td style="border:1px solid #e5e7eb;text-align:center;font-weight:800;color:#f97316">'+tQ+'件</td>'
+    +'<td style="border:1px solid #e5e7eb;text-align:center;font-weight:800;color:#f97316">'+tW+'kg</td>'
+    +'<td style="border:1px solid #e5e7eb"></td></tr></tfoot></table></div>'
+    +'<div class="g3">'
+    +'<div><label class="lbl">运费（元）</label><input class="inp" type="number" value="'+(f.fee||'')+'" onchange="S.form.fee=this.value" placeholder="0.00"/></div>'
+    +'<div><label class="lbl">到付金额（元）</label><input class="inp" type="number" value="'+(f.codAmount||'')+'" onchange="S.form.codAmount=this.value" placeholder="0.00"/></div>'
+    +'<div><label class="lbl">成本（元）</label><input class="inp" type="number" value="'+(f.cost||'')+'" onchange="S.form.cost=this.value" placeholder="0.00"/></div>'
+    +'</div>'
+    +'<div><div class="sh"><div class="sha"></div>🛒 代购商品清单（选填）</div>'
+    +'<div style="overflow-x:auto;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px">'
+    +'<table class="tbl" style="min-width:580px"><thead><tr style="background:#1a5c4a;color:white">'
+    +'<th style="width:30px">#</th><th>'+t.prodName+'</th><th>'+t.prodLink+'</th><th style="width:80px">规格/颜色</th><th style="width:50px;text-align:center">'+t.prodQty+'</th><th style="width:65px;text-align:right">'+t.prodPrice+'</th><th style="width:65px;text-align:right">'+t.prodSub+'</th><th>要求</th>'
+    +'</tr></thead><tbody>'+pRows+'</tbody>'
+    +'<tfoot><tr style="background:#f0fdf4"><td colspan="5" style="border:1px solid #e5e7eb;padding:6px 8px;text-align:right;font-weight:700;font-size:12px">'+t.totalRow+'</td>'
+    +'<td colspan="2" style="border:1px solid #e5e7eb;text-align:right;font-weight:800;color:#f97316">¥'+pTotal.toFixed(2)+'</td>'
+    +'<td style="border:1px solid #e5e7eb"></td></tr></tfoot></table></div>'
+    +'<button class="btn bgr bxs" style="margin-top:6px" onclick="S.form.products.push(eP());renderModals()">'+t.addRow+'</button></div>'
+    +'<div><div class="sh shp"><div class="sha"></div>'+t.remarkLabel+'</div>'
+    +'<div style="border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;padding:12px;background:white">'
+    +'<textarea class="inp" rows="3" onchange="S.form.remark=this.value">'+(f.remark||'')+'</textarea></div></div>'
+    +(S.ferr?'<div style="color:#ef4444;font-size:12px;text-align:center;padding:10px;background:#fee2e2;border-radius:8px">⚠️ '+S.ferr+'</div>':"")
+    +'<div style="display:flex;gap:10px">'
+    +'<button class="btn bg_" style="flex:1" onclick="closeForm();render()">'+t.cancel+'</button>'
+    +'<button class="btn bo" style="flex:1;font-size:14px" onclick="saveForm()">'+t.save+'</button>'
+    +'</div></div></div></div>';
+  return html;
+}
+
+function renderProfit(){
+  var t=T();var orders=S.orders;
+  var tRev=orders.reduce(function(s,o){return s+(parseFloat(o.fee)||0)+(parseFloat(o.codAmount)||0);},0);
+  var tCost=orders.reduce(function(s,o){return s+(parseFloat(o.cost)||0);},0);
+  var tProfit=tRev-tCost;
+  var rate=tRev>0?(tProfit/tRev*100).toFixed(1):0;
+  var monthly={};
+  orders.forEach(function(o){
+    if(!o.createdAt)return;
+    var m=o.createdAt.split('/').slice(0,2).join('/');
+    if(!monthly[m])monthly[m]={count:0,rev:0,cost:0};
+    monthly[m].count++;
+    monthly[m].rev+=(parseFloat(o.fee)||0)+(parseFloat(o.codAmount)||0);
+    monthly[m].cost+=parseFloat(o.cost)||0;
+  });
+  var months=Object.entries(monthly).sort(function(a,b){return b[0].localeCompare(a[0]);}).slice(0,12);
+  var html='<div>'
+    +'<div style="font-weight:800;font-size:16px;margin-bottom:12px">📈 '+t.profitTitle+'</div>'
+    +'<div class="g4" style="margin-bottom:12px">'
+    +'<div class="profit-stat"><div class="profit-n" style="color:#3b82f6">¥'+tRev.toFixed(0)+'</div><div class="profit-l">'+t.totalRevenue+'</div></div>'
+    +'<div class="profit-stat" style="background:#fef2f2"><div class="profit-n" style="color:#ef4444">¥'+tCost.toFixed(0)+'</div><div class="profit-l">'+t.totalCost+'</div></div>'
+    +'<div class="profit-stat" style="background:'+(tProfit>=0?'#f0fdf4':'#fef2f2')+'"><div class="profit-n" style="color:'+(tProfit>=0?'#22c55e':'#ef4444')+'">¥'+tProfit.toFixed(0)+'</div><div class="profit-l">'+t.totalProfit+'</div></div>'
+    +'<div class="profit-stat" style="background:#fff7ed"><div class="profit-n" style="color:#f97316">'+rate+'%</div><div class="profit-l">'+t.profitRate+'</div></div>'
+    +'</div>'
+    +'<div style="background:white;border-radius:14px;overflow:hidden;border:1px solid #e5e7eb;margin-bottom:12px">'
+    +'<div style="background:linear-gradient(135deg,#1e3a5f,#2d5a8e);color:white;padding:14px 18px;font-weight:700;font-size:14px">📅 '+t.monthlyReport+'</div>'
+    +'<div style="overflow-x:auto"><table class="tbl" style="font-size:13px">'
+    +'<thead><tr><th>'+t.monthCol+'</th><th style="text-align:center">'+t.orderCount+'</th><th style="text-align:right">'+t.revenue+'</th><th style="text-align:right">'+t.costCol+'</th><th style="text-align:right">'+t.profitCol+'</th><th style="text-align:center">'+t.profitRate+'</th></tr></thead>'
+    +'<tbody>';
+  if(months.length===0){
+    html+='<tr><td colspan="6" style="text-align:center;padding:20px;color:#9ca3af">'+t.noData+'</td></tr>';
+  }else{
+    months.forEach(function(entry){
+      var m=entry[0],d=entry[1];
+      var p=d.rev-d.cost;var r=d.rev>0?(p/d.rev*100).toFixed(1):0;
+      html+='<tr><td style="font-weight:600">'+m+'</td><td style="text-align:center">'+d.count+'</td>'
+        +'<td style="text-align:right;color:#3b82f6">¥'+d.rev.toFixed(0)+'</td>'
+        +'<td style="text-align:right;color:#ef4444">¥'+d.cost.toFixed(0)+'</td>'
+        +'<td style="text-align:right;font-weight:700;color:'+(p>=0?'#22c55e':'#ef4444')+'">¥'+p.toFixed(0)+'</td>'
+        +'<td style="text-align:center"><span class="badge '+(p>=0?'bgn':'brd')+'">'+r+'%</span></td></tr>';
+    });
+  }
+  html+='<tr style="background:#f0fdf4;font-weight:700"><td>'+t.totalRow+'</td><td style="text-align:center">'+orders.length+'</td>'
+    +'<td style="text-align:right;color:#3b82f6">¥'+tRev.toFixed(0)+'</td>'
+    +'<td style="text-align:right;color:#ef4444">¥'+tCost.toFixed(0)+'</td>'
+    +'<td style="text-align:right;font-weight:800;color:'+(tProfit>=0?'#22c55e':'#ef4444')+'">¥'+tProfit.toFixed(0)+'</td>'
+    +'<td style="text-align:center"><span class="badge '+(tProfit>=0?'bgn':'brd')+'">'+rate+'%</span></td></tr>'
+    +'</tbody></table></div></div></div>';
+  return html;
+}
+
+function renderDashboard(){
+  var t=T();
+  var isA=S.user&&S.user.role==="admin";
+  var stats={
+    total:S.orders.length,
+    transit:S.orders.filter(function(o){return o.status==="瑞丽已签收"||o.status==="木姐已签收"||o.status==="腊戌已签收";}).length,
+    arrived:S.orders.filter(function(o){return o.status==="瓦城已签收";}).length,
+    unpaid:S.orders.filter(function(o){return o.payStatus==="未付"&&o.status!=="客户已取货";}).length
+  };
+  var filtered=S.orders.filter(function(o){
+    var mS=S.fSts==="全部"||o.status===S.fSts;
+    var mB=S.fBiz==="全部"||o.bizType===S.fBiz;
+    var mSh=S.fShip==="全部"||o.shipType===S.fShip;
+    var mP=S.fPay==="全部"||o.payStatus===S.fPay;
+    var q=S.search.toLowerCase();
+    var mQ=!q||String(o.orderNo||'').includes(q)||String(o.customerName||'').toLowerCase().includes(q)||String(o.customerPhone||'').includes(q)||String(o.id||'').toLowerCase().includes(q)||String(o.intlTrackNo||'').toLowerCase().includes(q)||String(o.domesticTrackNos||'').toLowerCase().includes(q);
+    return mS&&mB&&mSh&&mP&&mQ;
+  });
+
+  var bannerHTML='<div class="banner-wrap">';
+  S.banners.forEach(function(b,i){
+    bannerHTML+='<div class="banner-slide'+(i===S.bannerIdx?' active':'')+'" style="background:'+b.bg+'">'
+      +'<div style="font-size:28px;margin-bottom:4px">'+b.icon+'</div>'
+      +'<div style="font-weight:800;font-size:16px;color:white">'+(S.lang==='zh'?b.zh:b.mm)+'</div>'
+      +'<div style="font-size:12px;color:rgba(255,255,255,.85);margin-top:3px">'+(S.lang==='zh'?b.sub_zh:b.sub_mm)+'</div>'
+      +'</div>';
+  });
+  bannerHTML+='<div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px">';
+  S.banners.forEach(function(_,i){bannerHTML+='<div class="bdot'+(i===S.bannerIdx?' on':'')+'" onclick="S.bannerIdx='+i+';document.querySelectorAll(\'.banner-slide\').forEach(function(e,x){e.classList.toggle(\'active\',x==='+i+')});document.querySelectorAll(\'.bdot\').forEach(function(e,x){e.classList.toggle(\'on\',x==='+i+')});"></div>';});
+  bannerHTML+='</div></div>';
+
+  var noticeHTML='<div class="notice-box"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:700;font-size:13px;color:#92400e"><span>📢</span>'+t.notices+'</div>';
+  S.notices.forEach(function(n){noticeHTML+='<div class="notice-item"><span style="font-size:16px;flex-shrink:0">'+n.icon+'</span><span style="font-size:12px;color:#78350f;line-height:1.5">'+(S.lang==='zh'?n.zh:n.mm)+'</span></div>';});
+  noticeHTML+='</div>';
+
+  var tabContent="";
+  if(S.tab==="orders"||!isA){
+    var ocards="";
+    if(S.loading){
+      ocards='<div style="text-align:center;padding:60px;color:#9ca3af"><div style="font-size:40px;margin-bottom:12px">⏳</div><div style="font-weight:600">'+t.loading+'</div></div>';
+    }else if(filtered.length===0){
+      ocards='<div style="text-align:center;padding:60px;color:#9ca3af"><div style="font-size:48px;margin-bottom:12px">📭</div><div style="font-weight:600">'+t.noOrder+'</div><div style="font-size:13px;margin-top:6px">'+t.noOrderSub+'</div></div>';
+    }else{
+      filtered.forEach(function(o){
+        var on=String(o.orderNo||o.id||'');
+        ocards+='<div class="ocard">'
+          +'<div class="ocard-t" onclick="set({detail:S.orders.find(function(x){return x.id===\''+o.id+'\';})||null})">'
+          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">'
+          +'<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">'
+          +'<span class="ono">#'+on+'</span>'
+          +sbadge(o.status)
+          +(o.shipType?'<span class="'+(o.shipType==='空运'?'air':'land')+'">'+(o.shipType==='空运'?'✈️':'🚛')+o.shipType+'</span>':"")
+          +(o.payStatus?'<span class="badge '+(o.payStatus==='已付'?'bgn':'brd')+'" style="font-size:10px">'+(o.payStatus==='已付'?t.paidTag:t.unpaidTag)+'</span>':"")
+          +'</div>'
+          +'<span class="badge bon" style="font-size:10px">'+(o.bizType||'')+'</span>'
+          +'</div>'
+          +'<div style="font-weight:700;font-size:15px;margin-bottom:3px">'+(o.customerName||'')+' <span style="font-weight:400;font-size:12px;color:#9ca3af">'+(o.customerPhone||'')+'</span></div>'
+          +'<div style="font-size:11px;color:#9ca3af">'
+          +(o.intlTrackNo?'<span>🌐 '+o.intlTrackNo+' </span>':"")
+          +(o.domesticTrackNos?'<span>🚚 '+o.domesticTrackNos+'</span>':"")
+          +(o.customerAddress?'<div>📍 '+o.customerAddress+'</div>':"")
+          +'</div></div>'
+          +'<div class="ocard-a">'
+          +(isA?'<button class="btn bo bxs" onclick="openFormEdit(\''+o.id+'\')">'+t.editBtn+'</button>':"")
+          +'<button class="btn bgr bxs" onclick="event.stopPropagation();set({stsModal:S.orders.find(function(x){return x.id===\''+o.id+'\';})||null})">🔄 状态</button>'
+          +'<button class="btn bb bxs" onclick="set({detail:S.orders.find(function(x){return x.id===\''+o.id+'\';})||null})">👁 详情</button>'
+          +(isA?'<button class="btn br bxs" onclick="delOrder(\''+o.id+'\')">'+t.delBtn+'</button>':"")
+          +'</div></div>';
+      });
+    }
+
+    tabContent='<div style="margin-bottom:12px">'+bannerHTML+noticeHTML+'</div>'
+      +'<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">'
+      +(isA?'<button class="btn bo" onclick="set({showForm:true,editId:null,form:eF(),ferr:\'\'})">'+t.newOrder+'</button>':"")
+      +(isA?'<button class="btn bgr" onclick="exportExcel(filteredOrders())">'+t.exportExcel+'</button>':"")
+      +'<button class="btn bg_" onclick="loadOrders()">'+t.refresh+'</button>'
+      +'<div style="position:relative;flex:1;min-width:140px"><span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#9ca3af">🔍</span>'
+      +'<input class="inp" style="padding-left:32px" value="'+S.search+'" oninput="S.search=this.value;render()" placeholder="'+t.search+'"/></div>'
+      +'</div>'
+      +'<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">'
+      +'<span style="font-size:11px;font-weight:700;color:#9ca3af;align-self:center;margin-right:4px">'  +t.filterStatus+':</span>'
+      +["全部"].concat(STS).map(function(s,i){var lbl=i===0?t.all:getSTSLabel(s);return'<button class="fb'+(S.fSts===s?' fo':'')+'" onclick="S.fSts=\''+s+'\';render()">'+lbl+'</button>';}).join("")
+      +'</div>'
+      +'<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">'
+      +'<span style="font-size:11px;font-weight:700;color:#9ca3af;align-self:center;margin-right:4px">'  +t.filterBiz+':</span>'
+      +["全部"].concat(BIZ).map(function(b,i){var lbl=i===0?t.all:(S.lang==="mm"&&BIZ_MM[i-1]?BIZ_MM[i-1]:b);return'<button class="fb'+(S.fBiz===b?' fbo':'')+'" onclick="S.fBiz=\''+b+'\';render()">'+lbl+'</button>';}).join("")
+      +'<span style="font-size:11px;font-weight:700;color:#9ca3af;align-self:center;margin-left:8px;margin-right:4px">'  +t.filterShip+':</span>'
+      +[[t.all,"全部"],[t.land,"陆运"],[t.air,"空运"]].map(function(p){return'<button class="fb'+(S.fShip===p[1]?' fbo':'')+'" onclick="S.fShip=\''+p[1]+'\';render()">'+p[0]+'</button>';}).join("")
+      +'<span style="font-size:11px;font-weight:700;color:#9ca3af;align-self:center;margin-left:8px;margin-right:4px">'  +t.filterPay+':</span>'
+      +[[t.all,"全部"],[t.unpaidF,"未付"],[t.paidF,"已付"]].map(function(p){return'<button class="fb'+(S.fPay===p[1]?' fbo':'')+'" onclick="S.fPay=\''+p[1]+'\';render()">'+p[0]+'</button>';}).join("")
+      +'</div>'
+      +'<div style="font-size:12px;color:#9ca3af;margin-bottom:8px">'+t.countPre+'<strong style=\"color:#f97316\">'+filtered.length+'</strong>'+t.countSuf+'</div>'
+      +ocards;
+  }else if(S.tab==="profit"){
+    tabContent=renderProfit();
+  }else if(S.tab==="staff"){
+    var sc="";
+    S.users.forEach(function(u){
+      sc+='<div class="card" style="display:flex;justify-content:space-between;align-items:center">'
+        +'<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'
+        +'<span style="font-weight:700;font-size:15px">'+u.name+'</span>'
+        +'<span class="badge '+(u.role==='admin'?'bon':'bgr2')+'">'+(u.role==='admin'?(S.lang==="mm"?'👑 စီမံခန့်ခွဲသူ':t.adminLabel):(S.lang==="mm"?'👤 ဝန်ထမ်း':t.staffLabel2))+'</span>'
+        +(u.id===S.user.id?'<span class="badge bbl">'+t.currentTag+'</span>':"")
+        +'</div><div style="font-size:12px;color:#9ca3af">'+t.acctLabel+''+u.username+'</div></div>'
+        +'<div style="display:flex;gap:6px">'
+        +'<button class="btn bo bsm" onclick="S.sf={username:\''+u.username+'\',password:\''+u.password+'\',name:\''+u.name+'\',role:\''+u.role+'\'};S.esid=\''+u.id+'\';S.serr=\'\';set({showStaff:true})">'+t.editBtn2+'</button>'
+        +'<button class="btn bb bsm" onclick="S.showPwd={id:\''+u.id+'\',name:\''+u.name+'\',username:\''+u.username+'\'};S.pf={old:\'\',newp:\'\',conf:\'\'};S.perr=\'\';render()">'+t.changePwd+'</button>'
+        +(u.id!==S.user.id?'<button class="btn br bsm" onclick="delStaff(\''+u.id+'\')">'+t.delBtn2+'</button>':"")
+        +'</div></div>';
+    });
+    tabContent='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'
+      +'<div style="font-weight:700;font-size:16px">'+t.staffMgmt+' <span style="font-size:13px;color:#9ca3af;font-weight:400">('+S.users.length+')</span></div>'
+      +'<button class="btn bo" onclick="S.sf={username:\'\',password:\'\',name:\'\',role:\'staff\'};S.esid=null;S.serr=\'\';set({showStaff:true})">'+t.addStaff+'</button></div>'+sc;
+  }else if(S.tab==="settings"){
+    tabContent='<div style="display:flex;flex-direction:column;gap:12px">'
+      +'<div class="card"><div style="font-weight:700;font-size:14px;margin-bottom:6px">'+t.cloudSync+'</div>'
+      +'<div style="font-size:12px;color:#6b7280;margin-bottom:12px">'+t.dataDesc+'</div>'
+      +'<div style="display:flex;gap:8px"><button class="btn bo" onclick="loadOrders()">'+t.refreshBtn+'</button><button class="btn bgr" onclick="exportExcel(S.orders)">'+t.exportAll+'</button></div></div>'
+      +'<div class="card"><div style="font-weight:700;font-size:14px;margin-bottom:6px">🔑 '+t.pwdTitle+'</div><div style="font-size:12px;color:#9ca3af;margin-bottom:12px">'+S.user.name+'（'+S.user.username+'）</div>'
+      +'<button class="btn bo" onclick="S.showPwd={id:\''+S.user.id+'\',name:\''+S.user.name+'\',username:\''+S.user.username+'\'};S.pf={old:\'\',newp:\'\',conf:\'\'};S.perr=\'\';render()">'+t.changePwdBtn+'</button></div>'
+      +'<div class="card"><div style="font-weight:700;font-size:14px;margin-bottom:6px">🗑️ '+t.cleanTitle+'</div><div style="font-size:12px;color:#9ca3af;margin-bottom:12px">'+t.cleanDesc+'</div>'
+      +'<button class="btn br" onclick="cleanDone()">'+t.cleanBtn+'</button></div>'
+      +'</div>';
+  }
+
+  return '<div>'+hdr()
+    +'<div class="sbar"><div class="g4" style="max-width:600px;margin:0 auto">'
+    +'<div class="sbox"><div class="sn" style="color:#1f2937">'+stats.total+'</div><div class="sl">'+t.totalOrders+'</div></div>'
+    +'<div class="sbox"><div class="sn" style="color:#b45309">'+stats.transit+'</div><div class="sl">'+t.inTransit+'</div></div>'
+    +'<div class="sbox"><div class="sn" style="color:#15803d">'+stats.arrived+'</div><div class="sl">'+t.arrived+'</div></div>'
+    +'<div class="sbox"><div class="sn" style="color:#ef4444">'+stats.unpaid+'</div><div class="sl">'+t.unpaid+'</div></div>'
+    +'</div></div>'
+    +(isA?'<div class="tabs">'
+      +'<button class="tab'+(S.tab==='orders'?' on':'')+'" onclick="set({tab:\'orders\'})">'+t.orderMgmt+'</button>'
+      +'<button class="tab'+(S.tab==='profit'?' on':'')+'" onclick="set({tab:\'profit\'})">'+t.profit+'</button>'
+      +'<button class="tab'+(S.tab==='staff'?' on':'')+'" onclick="set({tab:\'staff\'})">'+t.staffMgmt+'</button>'
+      +'<button class="tab'+(S.tab==='settings'?' on':'')+'" onclick="set({tab:\'settings\'})">'+t.settings+'</button>'
+      +'</div>':"")
+    +'<div class="page">'+tabContent+'</div>'
+    +'</div>';
+}
+
+function filteredOrders(){
+  return S.orders.filter(function(o){
+    return(S.fSts==="全部"||o.status===S.fSts)&&(S.fBiz==="全部"||o.bizType===S.fBiz)&&(S.fShip==="全部"||o.shipType===S.fShip)&&(S.fPay==="全部"||o.payStatus===S.fPay);
+  });
+}
+
+function openFormEdit(id){
+  var o=S.orders.find(function(x){return x.id===id;});
+  if(!o)return;
+  set({form:Object.assign({},o,{items:Array.isArray(o.items)?o.items:[eI()],products:Array.isArray(o.products)?o.products:[eP(),eP(),eP(),eP(),eP(),eP()]}),editId:o.id,ferr:"",showForm:true});
+}
+
+function renderStaffModal(){
+  var t=T();var sf=S.sf;
+  return '<div class="overlay" onclick="if(event.target===this)set({showStaff:false})">'
+    +'<div class="modal" style="max-width:380px;border-radius:20px 20px 0 0">'
+    +'<div class="mhdr"><span>'+(S.esid?t.editStaff:t.addStaffLabel)+'</span><button class="mcl" onclick="set({showStaff:false})">×</button></div>'
+    +'<div class="mbody">'
+    +'<div><label class="lbl">姓名 *</label><input class="inp" value="'+(sf.name||'')+'" oninput="S.sf.name=this.value"/></div>'
+    +'<div><label class="lbl">用户名 *</label><input class="inp" value="'+(sf.username||'')+'" '+(S.esid?'disabled':'')+' oninput="S.sf.username=this.value"/></div>'
+    +'<div><label class="lbl">密码 *</label><input class="inp" type="password" value="'+(sf.password||'')+'" oninput="S.sf.password=this.value"/></div>'
+    +'<div><label class="lbl">角色</label><select class="inp" onchange="S.sf.role=this.value"><option value="staff"'+(sf.role==='staff'?' selected':'')+'>'+t.staffRole+'</option><option value="admin"'+(sf.role==="admin"?' selected':'')+'>'+t.adminRole+'</option></select></div>'
+    +(S.serr?'<div style="color:#ef4444;font-size:12px;padding:8px;background:#fee2e2;border-radius:8px">'+S.serr+'</div>':"")
+    +'<div style="display:flex;gap:8px"><button class="btn bg_" style="flex:1" onclick="set({showStaff:false})">取消</button><button class="btn bo" style="flex:1" onclick="saveStaff()">保存</button></div>'
+    +'</div></div></div>';
+}
+
+function renderPwdModal(){
+  var pf=S.pf;
+  return '<div class="overlay" onclick="if(event.target===this)set({showPwd:null})">'
+    +'<div class="modal" style="max-width:380px;border-radius:20px 20px 0 0">'
+    +'<div class="mhdr"><span>'+t.changePwdTitle+'</span><button class="mcl" onclick="set({showPwd:null})">×</button></div>'
+    +'<div class="mbody">'
+    +'<div style="font-size:13px;color:#9ca3af;padding:8px;background:#f8fafc;border-radius:8px">'+S.showPwd.name+'（'+S.showPwd.username+'）</div>'
+    +'<div><label class="lbl">'+t.oldPwd+'</label><input class="inp" type="password" value="'+(pf.old||'')+'" oninput="S.pf.old=this.value"/></div>'
+    +'<div><label class="lbl">'+t.newPwd+'</label><input class="inp" type="password" value="'+(pf.newp||'')+'" oninput="S.pf.newp=this.value"/></div>'
+    +'<div><label class="lbl">'+t.confPwd+'</label><input class="inp" type="password" value="'+(pf.conf||'')+'" oninput="S.pf.conf=this.value"/></div>'
+    +(S.perr?'<div style="color:#ef4444;font-size:12px;padding:8px;background:#fee2e2;border-radius:8px">'+S.perr+'</div>':"")
+    +'<div style="display:flex;gap:8px"><button class="btn bg_" style="flex:1" onclick="set({showPwd:null})">'+t.cancel+'</button><button class="btn bo" style="flex:1" onclick="savePwd()">'+t.savePwdBtn+'</button></div>'
+    +'</div></div></div>';
+}
+
+function renderModals(){
+  var existing=document.getElementById('__modals');
+  if(existing)existing.remove();
+  var div=document.createElement('div');
+  div.id='__modals';
+  var html="";
+  if(S.showForm)html+=renderForm();
+  if(S.stsModal)html+=renderSts();
+  if(S.detail)html+=renderDetail();
+  if(S.showStaff)html+=renderStaffModal();
+  if(S.showPwd)html+=renderPwdModal();
+  div.innerHTML=html;
+  document.body.appendChild(div);
+}
+
+function render(){
+  var a=document.getElementById('app');
+  if(!a)return;
+  if(S.page==="login")a.innerHTML=renderLogin();
+  else if(S.page==="public")a.innerHTML=renderPublic();
+  else a.innerHTML=renderDashboard();
+  renderModals();
+}
+
+render();
+</script>
+</body>
+</html>
