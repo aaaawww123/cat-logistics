@@ -1222,6 +1222,15 @@ function renderModals(){
   document.body.appendChild(div);
 }
 
+
+function openOrderById(id){
+  var o=S.orders.find(function(x){return x.id===id;});
+  if(o)set({detail:o});
+}
+function openStsById(id){
+  var o=S.orders.find(function(x){return x.id===id;});
+  if(o)set({stsModal:o});
+}
 function renderOrderList(){
   var el=document.getElementById("order-list-wrap");
   var countEl=document.getElementById("order-count");
@@ -1246,9 +1255,11 @@ function renderOrderList(){
   }else{
     filtered.forEach(function(o){
       var on=String(o.orderNo||o.id||"");
-      var eid=JSON.stringify(o.id);
+      var oid=o.id;
+      // Build card
       html+='<div class="ocard">';
-      html+='<div class="ocard-t" onclick="set({detail:S.orders.find(function(x){return x.id==='+eid+';})});">';
+      // Card top - clicking whole card opens detail
+      html+='<div class="ocard-t" onclick="openOrderById(\''+oid+'\')">';
       html+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">';
       html+='<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">';
       html+='<span class="ono">#'+on+'</span>';
@@ -1264,11 +1275,12 @@ function renderOrderList(){
       if(o.domesticTrackNos)html+='<span>🚚 '+o.domesticTrackNos+'</span>';
       if(o.customerAddress)html+='<div>📍 '+o.customerAddress+'</div>';
       html+='</div></div>';
+      // Action buttons
       html+='<div class="ocard-a">';
-      if(isA)html+='<button class="btn bo bxs" onclick="openFormEdit('+eid+')">'+t.editBtn+'</button>';
-      html+='<button class="btn bgr bxs" onclick="event.stopPropagation();set({stsModal:S.orders.find(function(x){return x.id==='+eid+';})})">'+t.stsBtn+'</button>';
-      html+='<button class="btn bb bxs" onclick="set({detail:S.orders.find(function(x){return x.id==='+eid+';})})">'+t.detailBtn+'</button>';
-      if(isA)html+='<button class="btn br bxs" onclick="delOrder('+eid+')">'+t.delBtn+'</button>';
+      if(isA)html+='<button class="btn bo bxs" onclick="openFormEdit(\''+oid+'\')">'+t.editBtn+'</button>';
+      html+='<button class="btn bgr bxs" onclick="event.stopPropagation();openStsById(\''+oid+'\')">'+t.stsBtn+'</button>';
+      html+='<button class="btn bb bxs" onclick="openOrderById(\''+oid+'\')">'+t.detailBtn+'</button>';
+      if(isA)html+='<button class="btn br bxs" onclick="delOrder(\''+oid+'\')">'+t.delBtn+'</button>';
       html+='</div></div>';
     });
   }
