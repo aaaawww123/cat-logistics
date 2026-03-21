@@ -127,14 +127,24 @@ function lsGetUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY)||'nu
 function lsSaveUsers(users){localStorage.setItem(USERS_KEY,JSON.stringify(users));}
 
 function getNextOrderNo(){
+  // Step1: get max orderNo from existing orders in memory
+  var localMax=S.orders.reduce(function(mx,o){
+    var n=parseInt(o.orderNo)||0;
+    return n>mx?n:mx;
+  },1000);
+  // Step2: also check Firebase counter, use whichever is bigger
   return fetch(FB+"/meta/orderCounter?key="+AK).then(function(r){return r.json();}).then(function(d){
-    var n=1001;
+    var cloudN=1000;
     if(d.fields&&d.fields.count){
-      if(d.fields.count.integerValue)n=parseInt(d.fields.count.integerValue)+1;
-      else if(d.fields.count.doubleValue)n=parseInt(d.fields.count.doubleValue)+1;
+      if(d.fields.count.integerValue)cloudN=parseInt(d.fields.count.integerValue);
+      else if(d.fields.count.doubleValue)cloudN=parseInt(d.fields.count.doubleValue);
     }
+    var n=Math.max(localMax,cloudN)+1;
     return fsS("meta","orderCounter",{count:n}).then(function(){return String(n);});
-  }).catch(function(){return String(1001+Math.floor(Math.random()*9000));});
+  }).catch(function(){
+    // Offline fallback: use local max+1
+    return String(localMax+1);
+  });
 }
 
 var STS=["待处理订单","瑞丽已签收","木姐已签收","腊戌已签收","瓦城已签收","客户已取货"];
@@ -223,6 +233,7 @@ var LANG={
 function T(){return LANG[S.lang];}
 function set(u){Object.assign(S,u);render();}
 
+var _searchTimer=null;
 var S={
   page:"login",user:null,orders:[],users:[],sync:"idle",loading:false,lang:"zh",
   lu:"",lp:"",lerr:"",
@@ -559,32 +570,76 @@ function hdr(back){
 }
 
 function exportExcel(orders){
-  var H=["订单编号","业务","运输","付款","客户姓名","电话","地址","货物","数量","重量","国内单号","国际单号","运费","到付","成本","状态","创建时间","备注"];
-  var R=orders.map(function(o){
+  // ── Sheet 1: Orders ──
+  var H1=["订单编号","业务","运输","付款","客户姓名","电话","收货地址","货物清单","件数","重量(kg)","国内单号","国际单号","运费","到付金额","成本","状态","创建时间","备注"];
+  var R1=orders.map(function(o){
     var its=Array.isArray(o.items)?o.items:[];
-    var itS=its.filter(function(r){return r.itemName;}).map(function(r){return r.itemName+"x"+(r.qty||0);}).join("|");
+    var itS=its.filter(function(r){return r.itemName;}).map(function(r){return r.itemName+"x"+(r.qty||0);}).join(" | ");
     var tQ=its.reduce(function(s,r){return s+(parseFloat(r.qty)||0);},0);
     var tW=its.reduce(function(s,r){return s+(parseFloat(r.weight)||0);},0).toFixed(1);
-    return[o.orderNo||"",o.bizType||"",o.shipType||"",o.payStatus||"",o.customerName||"",o.customerPhone||"",o.customerAddress||"",itS,tQ,tW,o.domesticTrackNos||"",o.intlTrackNo||"",o.fee||"",o.codAmount||"",o.cost||"",o.status||"",o.createdAt||"",o.remark||""];
+    // prefix phone with tab to prevent scientific notation
+    var phone=o.customerPhone?"	"+(o.customerPhone||""):"";
+    return[
+      o.orderNo||"", o.bizType||"", o.shipType||"", o.payStatus||"",
+      o.customerName||"", phone, o.customerAddress||"",
+      itS, tQ, tW,
+      o.domesticTrackNos||"", o.intlTrackNo||"",
+      o.fee||"", o.codAmount||"", o.cost||"",
+      o.status||"", o.createdAt||"", o.remark||""
+    ];
   });
-  var rows=[H].concat(R);
-  var csv=rows.map(function(row){
-    return row.map(function(cell){
-      var s=String(cell).replace(/"/g,'""');
-      return '"'+s+'"';
-    }).join(',');
-  }).join('\r\n');
+
+  // ── Sheet 2: Purchase lists (one row per product) ──
+  var H2=["订单编号","客户姓名","#","商品名称","链接/货号","规格/颜色","数量","单价(元)","小计(元)","备注"];
+  var R2=[];
+  orders.forEach(function(o){
+    var prds=Array.isArray(o.products)?o.products:[];
+    var validPrds=prds.filter(function(p){return p.name||p.link||p.qty;});
+    if(validPrds.length===0)return;
+    validPrds.forEach(function(p,i){
+      var sub=p.qty&&p.price?(parseFloat(p.qty)||0)*(parseFloat(p.price)||0):"";
+      R2.push([
+        o.orderNo||"", o.customerName||"",
+        i+1, p.name||"", p.link||"", p.spec||"",
+        p.qty||"", p.price||"",
+        sub!==""?sub.toFixed(2):"",
+        p.remark||""
+      ]);
+    });
+  });
+
+  function toCSV(headers, rows){
+    var all=[headers].concat(rows);
+    return all.map(function(row){
+      return row.map(function(cell){
+        var s=String(cell).replace(/"/g,'""');
+        return '"'+s+'"';
+      }).join(',');
+    }).join('\r\n');
+  }
+
+  // Download orders CSV
   var bom='\uFEFF';
-  var blob=new Blob([bom+csv],{type:'text/csv;charset=utf-8;'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;
+  var csv1=bom+toCSV(H1,R1);
+  var blob1=new Blob([csv1],{type:'text/csv;charset=utf-8;'});
+  var url1=URL.createObjectURL(blob1);
+  var a1=document.createElement('a');
   var date=new Date();
   var dateStr=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
-  a.download='cat-orders-'+dateStr+'.csv';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},500);
+  a1.href=url1; a1.download='cat-orders-'+dateStr+'.csv';
+  document.body.appendChild(a1); a1.click();
+  setTimeout(function(){document.body.removeChild(a1);URL.revokeObjectURL(url1);},300);
+
+  // Download purchase list CSV (only if there are products)
+  if(R2.length>0){
+    var csv2=bom+toCSV(H2,R2);
+    var blob2=new Blob([csv2],{type:'text/csv;charset=utf-8;'});
+    var url2=URL.createObjectURL(blob2);
+    var a2=document.createElement('a');
+    a2.href=url2; a2.download='cat-purchase-list-'+dateStr+'.csv';
+    document.body.appendChild(a2);
+    setTimeout(function(){a2.click();setTimeout(function(){document.body.removeChild(a2);URL.revokeObjectURL(url2);},300);},400);
+  }
 }
 
 function renderLogin(){
@@ -744,14 +799,43 @@ function renderDetail(){
   if(o.domesticTrackNos)html+='<div><div style="font-size:10px;color:#9ca3af">'+t.domTrack+'</div><div style="font-weight:600">🚚 '+o.domesticTrackNos+'</div></div>';
   if(o.intlTrackNo)html+='<div><div style="font-size:10px;color:#9ca3af">'+t.intlTrack+'</div><div style="font-weight:600">🌐 '+o.intlTrackNo+'</div></div>';
   if(its.some(function(r){return r.itemName;})){
-    html+='<div><div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">货物明细</div>'
-      +'<table class="tbl"><thead><tr><th>#</th><th>'+t.itemName+'</th><th style=\"text-align:center\">'+t.itemQty+'</th><th style=\"text-align:center\">'+t.itemWeight+'</th></tr></thead><tbody>';
-    its.filter(function(r){return r.itemName;}).forEach(function(r,i){html+='<tr><td>'+(i+1)+'</td><td>'+r.itemName+'</td><td style="text-align:center">'+(r.qty||0)+'件</td><td style="text-align:center">'+(r.weight||0)+'kg</td></tr>';});
+    html+='<div><div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">'+t.goodsDetail+'</div>'
+      +'<table class="tbl"><thead><tr><th>#</th><th>'+t.itemName+'</th><th style="text-align:center">'+t.itemQty+'</th><th style="text-align:center">'+t.itemWeight+'</th></tr></thead><tbody>';
+    its.filter(function(r){return r.itemName;}).forEach(function(r,i){
+      html+='<tr><td>'+(i+1)+'</td><td>'+r.itemName+'</td><td style="text-align:center">'+(r.qty||0)+t.qtyUnit+'</td><td style="text-align:center">'+(r.weight||0)+'kg</td></tr>';
+    });
     html+='</tbody><tfoot><tr style="background:#fff7ed"><td colspan="2" style="text-align:right;font-weight:700">'+t.subtotal+'</td>'
-      +'<td style="text-align:center;font-weight:700;color:#f97316">'+its.reduce(function(s,r){return s+(parseFloat(r.qty)||0);},0)+'件</td>'
+      +'<td style="text-align:center;font-weight:700;color:#f97316">'+its.reduce(function(s,r){return s+(parseFloat(r.qty)||0);},0)+t.qtyUnit+'</td>'
       +'<td style="text-align:center;font-weight:700;color:#f97316">'+its.reduce(function(s,r){return s+(parseFloat(r.weight)||0);},0).toFixed(1)+'kg</td></tr></tfoot></table></div>';
   }
-  if(o.remark)html+='<div><div style="font-size:10px;color:#9ca3af">'+t.remark+'</div><div style="font-weight:600">'+o.remark+'</div></div>';
+  var prds=Array.isArray(o.products)?o.products:[];
+  if(prds.some(function(p){return p.name||p.link||p.qty;})){
+    html+='<div style="margin-top:10px">'
+      +'<div style="background:linear-gradient(90deg,#1a3a5c,#1e4976);color:white;padding:8px 12px;border-radius:8px 8px 0 0;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px">'
+      +'<div style="width:3px;height:14px;background:#f0a800;border-radius:2px"></div>🛒 '+t.purchaseList+'</div>'
+      +'<div style="overflow-x:auto;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px">'
+      +'<table class="tbl" style="min-width:420px"><thead><tr style="background:#1a5c4a;color:white">'
+      +'<th style="width:30px">#</th><th>'+t.prodName+'</th><th>'+t.prodLink+'</th>'
+      +'<th style="width:50px;text-align:center">'+t.prodQty+'</th>'
+      +'<th style="width:65px;text-align:right">'+t.prodPrice+'</th>'
+      +'<th style="width:65px;text-align:right">'+t.prodSub+'</th>'
+      +'</tr></thead><tbody>';
+    prds.filter(function(p){return p.name||p.link||p.qty;}).forEach(function(r,i){
+      var sub=r.qty&&r.price?(parseFloat(r.qty)||0)*(parseFloat(r.price)||0):"";
+      html+='<tr style="background:'+(i%2===0?'white':'#f0fdf4')+'">'
+        +'<td>'+(i+1)+'</td>'
+        +'<td>'+(r.name||'-')+'</td>'
+        +'<td style="color:#2563eb;font-size:11px">'+(r.link||'-')+'</td>'
+        +'<td style="text-align:center">'+(r.qty||'-')+'</td>'
+        +'<td style="text-align:right">'+(r.price?'¥'+r.price:'-')+'</td>'
+        +'<td style="text-align:right;font-weight:700;color:#f97316">'+(sub!==""?'¥'+sub.toFixed(2):'-')+'</td></tr>';
+    });
+    var pTotal=prds.reduce(function(s,r){return s+(parseFloat(r.qty)||0)*(parseFloat(r.price)||0);},0);
+    html+='<tr style="background:#fff7ed"><td colspan="4" style="text-align:right;font-weight:700">'+t.subtotal+'</td>'
+      +'<td colspan="2" style="text-align:right;font-weight:800;color:#f97316">¥'+pTotal.toFixed(2)+'</td></tr>'
+      +'</tbody></table></div></div>';
+  }
+  if(o.remark)html+='<div style="margin-top:8px"><div style="font-size:10px;color:#9ca3af">'+t.remark+'</div><div style="font-weight:600">'+o.remark+'</div></div>';
   if(S.user){
     html+='<div style="display:flex;gap:8px">';
     if(isA)html+='<button class="btn bo" style="flex:1" onclick="openEditDetail()">'+t.editBtn+'</button>';
@@ -1016,7 +1100,7 @@ function renderDashboard(){
       +(isA?'<button class="btn bgr" onclick="exportExcel(filteredOrders())">'+t.exportExcel+'</button>':"")
       +'<button class="btn bg_" onclick="loadOrders()">'+t.refresh+'</button>'
       +'<div style="position:relative;flex:1;min-width:140px"><span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#9ca3af">🔍</span>'
-      +'<input class="inp" style="padding-left:32px" value="'+S.search+'" oninput="S.search=this.value;render()" placeholder="'+t.search+'"/></div>'
+      +'<input class="inp" id="search-inp" style="padding-left:32px" placeholder="'+t.search+'"/></div>'
       +'</div>'
       +'<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">'
       +'<span style="font-size:11px;font-weight:700;color:#9ca3af;align-self:center;margin-right:4px">'  +t.filterStatus+':</span>'
@@ -1030,8 +1114,8 @@ function renderDashboard(){
       +'<span style="font-size:11px;font-weight:700;color:#9ca3af;align-self:center;margin-left:8px;margin-right:4px">'  +t.filterPay+':</span>'
       +[[t.all,"全部"],[t.unpaidF,"未付"],[t.paidF,"已付"]].map(function(p){return'<button class="fb'+(S.fPay===p[1]?' fbo':'')+'" onclick="S.fPay=\''+p[1]+'\';render()">'+p[0]+'</button>';}).join("")
       +'</div>'
-      +'<div style="font-size:12px;color:#9ca3af;margin-bottom:8px">'+t.countPre+'<strong style=\"color:#f97316\">'+filtered.length+'</strong>'+t.countSuf+'</div>'
-      +ocards;
+      +'<div id="order-count" style="font-size:12px;color:#9ca3af;margin-bottom:8px">'+t.countPre+'<strong style=\"color:#f97316\">'+filtered.length+'</strong>'+t.countSuf+'</div>'
+      +'<div id="order-list-wrap">'+ocards+'</div>';
   }else if(S.tab==="profit"){
     tabContent=renderProfit();
   }else if(S.tab==="staff"){
@@ -1138,13 +1222,82 @@ function renderModals(){
   document.body.appendChild(div);
 }
 
+function renderOrderList(){
+  var el=document.getElementById("order-list-wrap");
+  var countEl=document.getElementById("order-count");
+  if(!el)return;
+  var t=T();
+  var isA=S.user&&S.user.role==="admin";
+  var q=S.search.toLowerCase();
+  var filtered=S.orders.filter(function(o){
+    var mS=S.fSts==="全部"||o.status===S.fSts;
+    var mB=S.fBiz==="全部"||o.bizType===S.fBiz;
+    var mSh=S.fShip==="全部"||o.shipType===S.fShip;
+    var mP=S.fPay==="全部"||o.payStatus===S.fPay;
+    var mQ=!q||String(o.orderNo||"").includes(q)||String(o.customerName||"").toLowerCase().includes(q)||String(o.customerPhone||"").includes(q)||String(o.id||"").toLowerCase().includes(q)||String(o.intlTrackNo||"").toLowerCase().includes(q)||String(o.domesticTrackNos||"").toLowerCase().includes(q);
+    return mS&&mB&&mSh&&mP&&mQ;
+  });
+  if(countEl)countEl.innerHTML=t.countPre+'<strong style="color:#f97316">'+filtered.length+'</strong>'+t.countSuf;
+  var html="";
+  if(S.loading){
+    html='<div style="text-align:center;padding:60px;color:#9ca3af"><div style="font-weight:600">'+t.loading+'</div></div>';
+  }else if(filtered.length===0){
+    html='<div style="text-align:center;padding:60px;color:#9ca3af"><div style="font-size:48px;margin-bottom:12px">📭</div><div style="font-weight:600">'+t.noOrder+'</div><div style="font-size:13px;margin-top:6px">'+t.noOrderSub+'</div></div>';
+  }else{
+    filtered.forEach(function(o){
+      var on=String(o.orderNo||o.id||"");
+      html+='<div class="ocard"><div class="ocard-t" onclick="set({detail:S.orders.find(function(x){return x.id===\\'+"'"+'\\'+"'"+o.id+'\\'+"'"+'\\'+"'"+';})||null});">';
+      html+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="ono">#'+on+'</span>'+sbadge(o.status);
+      if(o.shipType)html+='<span class="'+(o.shipType==="空运"?"air":"land")+'">'+(o.shipType==="空运"?"✈️":"🚛")+o.shipType+'</span>';
+      if(o.payStatus)html+='<span class="badge '+(o.payStatus==="已付"?"bgn":"brd")+'" style="font-size:10px">'+(o.payStatus==="已付"?t.paidTag:t.unpaidTag)+'</span>';
+      html+='</div><span class="badge bon" style="font-size:10px">'+(o.bizType||"")+'</span></div>';
+      html+='<div style="font-weight:700;font-size:15px;margin-bottom:3px">'+(o.customerName||"")+' <span style="font-weight:400;font-size:12px;color:#9ca3af">'+(o.customerPhone||"")+'</span></div>';
+      html+='<div style="font-size:11px;color:#9ca3af">';
+      if(o.intlTrackNo)html+='🌐 '+o.intlTrackNo+' ';
+      if(o.domesticTrackNos)html+='🚚 '+o.domesticTrackNos;
+      if(o.customerAddress)html+='<div>📍 '+o.customerAddress+'</div>';
+      html+='</div></div><div class="ocard-a">';
+      var eid=JSON.stringify(o.id);
+      if(isA)html+='<button class="btn bo bxs" onclick="openFormEdit('+eid+')">'+t.editBtn+'</button>';
+      html+='<button class="btn bgr bxs" onclick="event.stopPropagation();set({stsModal:S.orders.find(function(x){return x.id==='+eid+';})||null})">'+t.stsBtn+'</button>';
+      html+='<button class="btn bb bxs" onclick="set({detail:S.orders.find(function(x){return x.id==='+eid+';})||null})">'+t.detailBtn+'</button>';
+      if(isA)html+='<button class="btn br bxs" onclick="delOrder('+eid+')">'+t.delBtn+'</button>';
+      html+='</div></div>';
+    });
+  }
+  el.innerHTML=html;
+}
+
 function render(){
   var a=document.getElementById('app');
   if(!a)return;
+  // Save cursor position before re-render
+  var si=document.getElementById("search-inp");
+  var hadFocus=si&&document.activeElement===si;
+  var cursorPos=si?si.selectionStart:0;
+
   if(S.page==="login")a.innerHTML=renderLogin();
   else if(S.page==="public")a.innerHTML=renderPublic();
   else a.innerHTML=renderDashboard();
   renderModals();
+
+  // Re-wire search input after DOM rebuild
+  var si2=document.getElementById("search-inp");
+  if(si2){
+    si2.value=S.search;
+    // Use a named handler so we never double-attach
+    si2._searchHandler=function(){
+      S.search=si2.value;
+      clearTimeout(_searchTimer);
+      _searchTimer=setTimeout(renderOrderList,200);
+    };
+    si2.addEventListener("input",si2._searchHandler);
+    // Restore focus if it was there
+    if(hadFocus){
+      si2.focus();
+      try{si2.setSelectionRange(cursorPos,cursorPos);}catch(e){}
+    }
+  }
 }
 
 render();
