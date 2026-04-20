@@ -1972,7 +1972,16 @@ function showDbError(msg){
   setTimeout(()=>el.style.display='none', 4000);
 }
 
-// Loading overlay
+// KEEP-ALIVE HEARTBEAT
+async function sbHeartbeat(){
+  try{
+    await fetch(SB_URL+'/rest/v1/records?select=id&limit=1', {
+      headers: sbHeaders()
+    });
+  } catch(e){}
+}
+sbHeartbeat();
+setInterval(sbHeartbeat, 23 * 60 * 60 * 1000);// Loading overlay
 function showLoading(show){
   let el = document.getElementById('db-loading');
   if(!el){
